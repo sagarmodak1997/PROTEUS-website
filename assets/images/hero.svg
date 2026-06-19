@@ -1,0 +1,69 @@
+<svg width="520" height="420" viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="hg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.35"/>
+      <stop offset="40%" stop-color="#FF8C00" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#0a0e27" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="track-r" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#FF5533" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="track-b" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#44AAFF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- glow background -->
+  <circle cx="260" cy="210" r="200" fill="url(#hg)"/>
+
+  <!-- Outer detector ring -->
+  <circle cx="260" cy="210" r="180" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.18"/>
+  <circle cx="260" cy="210" r="150" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.25"/>
+  <circle cx="260" cy="210" r="115" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.35"/>
+  <circle cx="260" cy="210" r="80"  fill="none" stroke="#FFD700" stroke-width="1" opacity="0.5"/>
+
+  <!-- detector segments -->
+  <g opacity="0.4">
+    <line x1="260" y1="30"  x2="260" y2="50"  stroke="#FFD700"/>
+    <line x1="260" y1="370" x2="260" y2="390" stroke="#FFD700"/>
+    <line x1="80"  y1="210" x2="100" y2="210" stroke="#FFD700"/>
+    <line x1="420" y1="210" x2="440" y2="210" stroke="#FFD700"/>
+  </g>
+
+  <!-- Particle tracks emerging from collision vertex -->
+  <g stroke-width="2" fill="none" stroke-linecap="round">
+    <!-- helical tracks bending in magnetic field -->
+    <path d="M 260 210 Q 320 130 410 80"  stroke="url(#track-r)" filter="url(#glow)"/>
+    <path d="M 260 210 Q 200 290 110 340" stroke="url(#track-b)" filter="url(#glow)"/>
+    <path d="M 260 210 Q 360 240 440 220" stroke="url(#track-r)" filter="url(#glow)"/>
+    <path d="M 260 210 Q 160 180 80  220" stroke="url(#track-b)" filter="url(#glow)"/>
+    <path d="M 260 210 Q 280 110 240 50"  stroke="url(#track-r)" filter="url(#glow)"/>
+    <path d="M 260 210 Q 240 310 280 380" stroke="url(#track-b)" filter="url(#glow)"/>
+    <path d="M 260 210 Q 340 280 400 350" stroke="url(#track-r)" filter="url(#glow)" opacity="0.7"/>
+    <path d="M 260 210 Q 180 140 120 100" stroke="url(#track-b)" filter="url(#glow)" opacity="0.7"/>
+  </g>
+
+  <!-- Incoming beams -->
+  <line x1="0"   y1="210" x2="240" y2="210" stroke="#FFD700" stroke-width="2" opacity="0.6" stroke-dasharray="4 6"/>
+  <line x1="280" y1="210" x2="520" y2="210" stroke="#FFD700" stroke-width="2" opacity="0.6" stroke-dasharray="4 6"/>
+
+  <!-- Collision vertex -->
+  <circle cx="260" cy="210" r="14" fill="#FFD700" opacity="0.4" filter="url(#glow)"/>
+  <circle cx="260" cy="210" r="7"  fill="#FFD700" filter="url(#glow)"/>
+  <circle cx="260" cy="210" r="3.5" fill="#ffffff"/>
+
+  <!-- Floating labels — physics symbols -->
+  <text x="430" y="70"  font-family="Georgia, serif" font-style="italic" font-size="18" fill="#FFD700" opacity="0.75">μ⁺</text>
+  <text x="100" y="340" font-family="Georgia, serif" font-style="italic" font-size="18" fill="#44AAFF" opacity="0.75">μ⁻</text>
+  <text x="50"  y="220" font-family="Georgia, serif" font-style="italic" font-size="14" fill="#fff"   opacity="0.5">e⁻</text>
+  <text x="460" y="220" font-family="Georgia, serif" font-style="italic" font-size="14" fill="#fff"   opacity="0.5">e⁺</text>
+  <text x="240" y="20"  font-family="Georgia, serif" font-style="italic" font-size="16" fill="#FF5533" opacity="0.65">γ</text>
+  <text x="20"  y="100" font-family="Courier, monospace" font-size="11" fill="#FFD700" opacity="0.5">s = (91.2 GeV)²</text>
+  <text x="320" y="400" font-family="Courier, monospace" font-size="11" fill="#FFD700" opacity="0.5">σ ≈ 2009 pb</text>
+</svg>

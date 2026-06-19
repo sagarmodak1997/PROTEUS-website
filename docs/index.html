@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation — PROTEUS</title>
+  <meta name="description" content="PROTEUS documentation: installation, quick start, Python API, web interface, and physics modules.">
+  <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="site-nav">
+    <a href="../index.html" class="nav-brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="30" x2="6"  y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="6"  y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <circle cx="30" cy="30" r="6" fill="#FFB800"/>
+          <circle cx="30" cy="30" r="2.5" fill="#fff"/>
+        </svg>
+      </span>
+      PROTEUS
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('is-open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="../index.html#mission">Mission</a></li>
+      <li><a href="../index.html#architecture">Architecture</a></li>
+      <li><a href="../index.html#features">Features</a></li>
+      <li><a class="is-active" href="./">Docs</a></li>
+      <li><a href="../updates/">Updates</a></li>
+      <li><a href="../community/">Community</a></li>
+      <li><a class="nav-cta" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="page-head">
+  <div class="container-narrow">
+    <h1>Documentation</h1>
+    <p>Install PROTEUS, run your first integration, and explore the full Python API and web interface.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <span class="section-eyebrow">Getting Started</span>
+    <h2 class="section-title">Choose a topic.</h2>
+    <p class="section-lede">Documentation is organised by what you want to do — install, use, extend, or cite.</p>
+
+    <div class="toc-grid">
+      <a class="toc-card" href="#install">
+        <h3>1. Installation</h3>
+        <p>Conda environment, GPU prerequisites, and dependency setup for CUDA 11.x and 12.x.</p>
+      </a>
+      <a class="toc-card" href="#quickstart">
+        <h3>2. Quick Start</h3>
+        <p>Launch the terminal interface, run an integration, see your first result.</p>
+      </a>
+      <a class="toc-card" href="#python-api">
+        <h3>3. Python API</h3>
+        <p>The three frontends — General, Physics, EFT — with copy-pasteable examples.</p>
+      </a>
+      <a class="toc-card" href="#web-ui">
+        <h3>4. Web Interface</h3>
+        <p>The 7-tab Gradio UI: general integration, HEP, hadronic, phase space, EFT, gradients, ONNX.</p>
+      </a>
+      <a class="toc-card" href="#dispatcher">
+        <h3>5. Backend Dispatcher</h3>
+        <p>How PROTEUS decides between VegasFlow, i-flow, and MadNIS for your integrand.</p>
+      </a>
+      <a class="toc-card" href="#citation">
+        <h3>6. Citation</h3>
+        <p>BibTeX entry, CERN / ATLAS / CMS policy notes, and required acknowledgements.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container-narrow">
+    <h2 id="install">1. Installation</h2>
+    <h3>1.1 Clone and create the environment</h3>
+<pre><code>git clone https://github.com/sagarmodak1997/PROTEUS.git
+cd PROTEUS
+conda create -n proteus python=3.10 -y
+conda activate proteus
+pip install -r requirements.txt</code></pre>
+
+    <h3>1.2 GPU backends</h3>
+    <p>Identify your CUDA version with <code>nvidia-smi</code>, then install matching wheels:</p>
+<pre><code># CUDA 12.x
+pip install tensorflow[and-cuda]
+pip install torch --index-url https://download.pytorch.org/whl/cu121
+
+# CUDA 11.x
+pip install tensorflow==2.12
+pip install torch --index-url https://download.pytorch.org/whl/cu118</code></pre>
+
+    <h3>1.3 Integration libraries</h3>
+<pre><code>pip install vegasflow
+pip install git+https://gitlab.com/i-flow/i-flow.git
+pip install git+https://github.com/madnis/madnis.git
+pip install -e .</code></pre>
+
+    <h3>1.4 Verify</h3>
+<pre><code>python3 bin/proteus.py --check
+
+  [OK] Python       3.10.14
+  [OK] TensorFlow   2.21.0
+  [OK] PyTorch      2.6.0
+  [OK] VegasFlow    1.4.0
+  [OK] i-flow       found
+  [OK] MadNIS       found
+  [OK] GPU          2x NVIDIA A100 80GB PCIe
+  All checks passed.</code></pre>
+
+    <h2 id="quickstart" style="margin-top:64px;">2. Quick Start</h2>
+<pre><code>conda activate proteus
+cd PROTEUS
+python3 bin/proteus.py</code></pre>
+    <p>Choose <code>1</code> for the terminal interface or <code>2</code> for the browser interface.</p>
+
+    <h2 id="python-api" style="margin-top:64px;">3. Python API</h2>
+    <h3>3.1 General integration</h3>
+<pre><code>from frontends.general_frontend import GeneralFrontend
+import numpy as np
+
+gf = GeneralFrontend(verbose=True)
+result = gf.integrate(
+    func    = lambda x: np.exp(-0.5 * np.sum(x**2, axis=-1)),
+    n_dim   = 5,
+    bounds  = (-4, 4),
+    n_calls = 200_000,
+)
+print(result.value, "±", result.error)   # 39.84 ± 0.03</code></pre>
+
+    <h3>3.2 HEP cross sections</h3>
+<pre><code>from frontends.physics_frontend import PhysicsFrontend
+
+pf = PhysicsFrontend(verbose=True)
+
+# e+e- → μ+μ- at the Z pole
+r = pf.compute_cross_section(process='ee_to_mumu', ecm=91.2, n_calls=500_000)
+print(f"σ = {r.value:.1f} ± {r.error:.1f} pb")   # ≈ 2009 ± 1 pb
+
+# Drell-Yan + Z' at 200 GeV
+r = pf.compute_cross_section(
+    process='drell_yan_zprime', ecm=200.0, n_calls=500_000,
+    quark_pdg_id=2, zprime_mass=150.0, zprime_width=1.5,
+)</code></pre>
+
+    <h3>3.3 SMEFT operators</h3>
+<pre><code>from frontends.eft_frontend import EFTFrontend
+
+eft = EFTFrontend(verbose=False)
+r = eft.compute_cross_section(
+    process='ee_to_mumu_eft', ecm=200.0,
+    wc_dict={'ll_1221': 0.01}, Lambda=1000.0, n_calls=500_000,
+)</code></pre>
+
+    <h3>3.4 Differentiable cross sections</h3>
+<pre><code>grads = pf.compute_cross_section_gradient(
+    process='ee_to_mumu', ecm=200.0,
+    wrt={'mz': (91.1876, 0.1)},
+    n_calls=500_000,
+)
+print(grads['mz'].value, "± pb/GeV")</code></pre>
+
+    <h2 id="web-ui" style="margin-top:64px;">4. Web Interface</h2>
+    <p>Launch the Gradio interface and open the URL it prints:</p>
+<pre><code>python3 bin/proteus.py -w
+# → http://localhost:8888</code></pre>
+
+    <p>Seven tabs cover the most common phenomenology workflows:</p>
+    <ul>
+      <li><strong>⚙ General Integration</strong> — any function, 1 – 50 dimensions</li>
+      <li><strong>⚛ HEP Physics (e⁺e⁻)</strong> — Drell-Yan, ee→μμ, Z′</li>
+      <li><strong>🔬 Hadronic (pp)</strong> — LHC / Tevatron with PDFFlow</li>
+      <li><strong>📐 Phase Space Volume</strong> — RAMBO with analytic comparison</li>
+      <li><strong>🧪 EFT / SMEFT</strong> — Warsaw-basis Wilson coefficient scans</li>
+      <li><strong>∂ Gradient dσ/dθ</strong> — central finite differences</li>
+      <li><strong>📦 ONNX Export</strong> — i-flow / MadNIS to ONNX</li>
+    </ul>
+
+    <h2 id="dispatcher" style="margin-top:64px;">5. Backend Dispatcher</h2>
+    <table style="width:100%; border-collapse:collapse; margin:18px 0;">
+      <thead style="background:#fff; border-bottom:2px solid var(--c-border);">
+        <tr><th style="text-align:left; padding:10px;">Condition</th><th style="text-align:left; padding:10px;">Backend</th></tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D ≤ 4</td><td style="padding:10px;">VegasFlow</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D = 5 – 12, smooth</td><td style="padding:10px;">VegasFlow</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D = 5 – 12, peaked</td><td style="padding:10px;">MadNIS</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D &gt; 12</td><td style="padding:10px;">i-flow</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;"><code>peaked=True</code></td><td style="padding:10px;">MadNIS (forced)</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="citation" style="margin-top:64px;">6. Citation</h2>
+    <p>If you use PROTEUS in academic work, cite the paper:</p>
+<pre><code>@software{proteus2026,
+  author       = {Sagar Modak and Sudhir Vempati},
+  title        = {{PROTEUS}: Differentiable GPU-accelerated Monte Carlo
+                  integration for collider phenomenology},
+  year         = {2026},
+  eprint       = {arXiv:TBD},
+  archivePrefix= {arXiv},
+  primaryClass = {hep-ph},
+  url          = {https://github.com/sagarmodak1997/PROTEUS}
+}</code></pre>
+    <p style="background:rgba(255,184,0,.1); border-left:3px solid var(--c-gold); padding:14px 18px; border-radius:6px; color:var(--c-fg);">
+      <strong>CERN / ATLAS / CMS policy:</strong> Any experiment software or analysis note that uses PROTEUS,
+      including ONNX models exported by PROTEUS, must include this citation per CERN software policy.
+    </p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <strong style="color:#fff;">PROTEUS</strong>
+      <p style="color:#8a90a8; margin:8px 0 0; font-size:.92rem;">
+        GPU-accelerated Monte Carlo integration for collider phenomenology.
+      </p>
+    </div>
+    <div>
+      <h5>Project</h5>
+      <ul>
+        <li><a href="./">Documentation</a></li>
+        <li><a href="../updates/">Updates</a></li>
+        <li><a href="../community/">Community</a></li>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Authors</h5>
+      <ul>
+        <li><a href="mailto:sagarmodak@iisc.ac.in">Sagar Modak</a></li>
+        <li><a href="mailto:vempati@iisc.ac.in">Sudhir Vempati</a></li>
+        <li style="color:#6c728a; font-size:.85rem;">IISc Bangalore</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS/issues" target="_blank" rel="noopener">Report a bug</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Sagar Modak &amp; Sudhir Vempati. Academic use requires citation of arXiv:TBD [hep-ph].</span>
+    <span>v1.0.0</span>
+  </div>
+</footer>
+
+</body>
+</html>

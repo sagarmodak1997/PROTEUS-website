@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community — PROTEUS</title>
+  <meta name="description" content="Join the PROTEUS community: forum, discussions, GitHub, and direct contact with the authors.">
+  <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="site-nav">
+    <a href="../index.html" class="nav-brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="30" x2="6"  y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="6"  y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <circle cx="30" cy="30" r="6" fill="#FFB800"/>
+          <circle cx="30" cy="30" r="2.5" fill="#fff"/>
+        </svg>
+      </span>
+      PROTEUS
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('is-open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="../index.html#mission">Mission</a></li>
+      <li><a href="../index.html#architecture">Architecture</a></li>
+      <li><a href="../index.html#features">Features</a></li>
+      <li><a href="../docs/">Docs</a></li>
+      <li><a href="../updates/">Updates</a></li>
+      <li><a class="is-active" href="./">Community</a></li>
+      <li><a class="nav-cta" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="page-head">
+  <div class="container-narrow">
+    <h1>Community</h1>
+    <p>Ask questions, share results, and shape the roadmap. PROTEUS is built in the open.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="toc-grid">
+      <a class="toc-card" href="https://github.com/sagarmodak1997/PROTEUS/discussions" target="_blank" rel="noopener">
+        <h3>💬 Forum</h3>
+        <p>Threaded Q&amp;A and announcements via GitHub Discussions. Sign in with GitHub to post.</p>
+      </a>
+      <a class="toc-card" href="https://github.com/sagarmodak1997/PROTEUS/issues" target="_blank" rel="noopener">
+        <h3>🐛 Issue Tracker</h3>
+        <p>Report bugs, request features, and track development. One ticket per concern, please.</p>
+      </a>
+      <a class="toc-card" href="https://github.com/sagarmodak1997/PROTEUS/pulls" target="_blank" rel="noopener">
+        <h3>🔀 Pull Requests</h3>
+        <p>Contributing? PRs welcome — please link to a discussion or issue first.</p>
+      </a>
+      <a class="toc-card" href="mailto:sagarmodak@iisc.ac.in">
+        <h3>✉ Contact</h3>
+        <p>Academic collaboration enquiries, sensitive bug reports, or anything off the record.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Embedded GitHub Discussions via Giscus ------------------- -->
+<section class="section section-alt">
+  <div class="container-narrow">
+    <span class="section-eyebrow">Discussion thread</span>
+    <h2 class="section-title">Drop a comment.</h2>
+    <p class="section-lede">
+      Comments below are powered by <a href="https://giscus.app" target="_blank" rel="noopener">Giscus</a>,
+      backed by GitHub Discussions on the PROTEUS repository. Your comment becomes
+      a Discussion post anyone can answer.
+    </p>
+
+    <!--
+      ╔════════════════════════════════════════════════════════════════════════╗
+      ║  GISCUS SETUP REQUIRED                                                 ║
+      ║  ───────────────────                                                   ║
+      ║  Before the widget below appears, you must (one-time, ~3 min):         ║
+      ║  1. Make the PROTEUS repo PUBLIC (Discussions require it)              ║
+      ║     OR install the Giscus GitHub App on a public mirror.               ║
+      ║  2. Enable GitHub Discussions: PROTEUS → Settings → General →          ║
+      ║     "Features" → tick "Discussions"                                     ║
+      ║  3. Visit https://giscus.app and fill in the form to get:              ║
+      ║       data-repo-id   (e.g. R_kgDOXXXXXX)                                ║
+      ║       data-category-id (e.g. DIC_kwDOXXXXXX)                            ║
+      ║  4. Paste them into the <script> tag below (where it says PASTE_HERE)  ║
+      ╚════════════════════════════════════════════════════════════════════════╝
+    -->
+
+    <div class="giscus" style="background:#fff; border:1px solid var(--c-border); border-radius:var(--r-md); padding:24px; min-height:200px;">
+      <noscript>JavaScript is required to load the discussion thread.</noscript>
+      <p id="giscus-fallback" style="color:var(--c-fg-muted); text-align:center; padding:24px 0;">
+        Discussions are loading…&nbsp;
+        if nothing appears in a few seconds, the Giscus widget hasn't been configured yet —
+        please <a href="https://github.com/sagarmodak1997/PROTEUS/discussions" target="_blank" rel="noopener">visit GitHub Discussions directly</a>.
+      </p>
+    </div>
+
+    <script src="https://giscus.app/client.js"
+        data-repo="sagarmodak1997/PROTEUS"
+        data-repo-id="PASTE_HERE"
+        data-category="General"
+        data-category-id="PASTE_HERE"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+    </script>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <strong style="color:#fff;">PROTEUS</strong>
+      <p style="color:#8a90a8; margin:8px 0 0; font-size:.92rem;">
+        GPU-accelerated Monte Carlo integration for collider phenomenology.
+      </p>
+    </div>
+    <div>
+      <h5>Project</h5>
+      <ul>
+        <li><a href="../docs/">Documentation</a></li>
+        <li><a href="../updates/">Updates</a></li>
+        <li><a href="./">Community</a></li>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Authors</h5>
+      <ul>
+        <li><a href="mailto:sagarmodak@iisc.ac.in">Sagar Modak</a></li>
+        <li><a href="mailto:vempati@iisc.ac.in">Sudhir Vempati</a></li>
+        <li style="color:#6c728a; font-size:.85rem;">IISc Bangalore</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS/issues" target="_blank" rel="noopener">Report a bug</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Sagar Modak &amp; Sudhir Vempati. Academic use requires citation of arXiv:TBD [hep-ph].</span>
+    <span>v1.0.0</span>
+  </div>
+</footer>
+
+</body>
+</html>

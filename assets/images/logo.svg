@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 110" width="690" height="110" font-family="ui-monospace, 'SF Mono', 'Cascadia Code', 'Source Code Pro', 'Menlo', 'Consolas', monospace" font-weight="700">
+  <style>
+    text { font-size: 14px; letter-spacing: 0; white-space: pre; }
+  </style>
+  <g>
+    <text x="0" y="14"  fill="#FFE033">█████████   █████████   ███████   ████████ ████████ ███     ███   ██████  </text>
+    <text x="0" y="28"  fill="#FFB800">███     ███ ███     ███ ███   ███    ███    ███      ███     ███ ███    ███ </text>
+    <text x="0" y="42"  fill="#FF8C00">███     ███ ███     ███ ███   ███    ███    ███      ███     ███ ███       </text>
+    <text x="0" y="56"  fill="#FF6600">█████████   █████████   ███   ███    ███    ██████   ███     ███  ██████   </text>
+    <text x="0" y="70"  fill="#EE3300">███         ███    ███  ███   ███    ███    ███      ███     ███       ███ </text>
+    <text x="0" y="84"  fill="#DD1100">███         ███     ███ ███   ███    ███    ███      ███     ███ ███    ███ </text>
+    <text x="0" y="98"  fill="#BB0000">███         ███     ███  ███████     ███    ████████  ███████    ██████   </text>
+  </g>
+</svg>

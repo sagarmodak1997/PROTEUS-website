@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROTEUS — GPU-accelerated Monte Carlo for collider phenomenology</title>
+  <meta name="description" content="PROTEUS is a GPU-accelerated Monte Carlo integration framework for collider phenomenology. It automatically routes integration problems to VegasFlow, i-flow, or MadNIS.">
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="site-nav">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="30" x2="6"  y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="6"  y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <circle cx="30" cy="30" r="6" fill="#FFB800"/>
+          <circle cx="30" cy="30" r="2.5" fill="#fff"/>
+        </svg>
+      </span>
+      PROTEUS
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('is-open')">☰</button>
+
+    <ul class="nav-links">
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="docs/">Docs</a></li>
+      <li><a href="updates/">Updates</a></li>
+      <li><a href="community/">Community</a></li>
+      <li><a class="nav-cta" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="hero-greet">Hello, I am PROTEUS</span>
+      <h1>GPU-accelerated <span class="accent">Monte Carlo</span> for collider phenomenology.</h1>
+      <p class="hero-sub">
+        PROTEUS routes your integration problem to the best available algorithm —
+        VegasFlow, i-flow, or MadNIS — automatically. Differentiable cross sections,
+        SMEFT operators, hadronic PDFs, and ONNX export, all in one framework.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="docs/">Get Started →</a>
+        <a class="btn btn-ghost" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <img src="assets/images/hero.svg" alt="Particle collision visualization">
+    </div>
+  </div>
+
+  <div class="hero-stats container">
+    <div><div class="stat-num">3</div><div class="stat-lbl">Integration Backends</div></div>
+    <div><div class="stat-num">7</div><div class="stat-lbl">Physics Modules</div></div>
+    <div><div class="stat-num">50D</div><div class="stat-lbl">Max Dimensions</div></div>
+    <div><div class="stat-num">246</div><div class="stat-lbl">Tests Passing</div></div>
+  </div>
+</section>
+
+<!-- Mission ----------------------------------------------------- -->
+<section id="mission" class="section">
+  <div class="container-narrow">
+    <span class="section-eyebrow">Our Mission</span>
+    <h2 class="section-title">One framework, three engines, every integration.</h2>
+    <p class="section-lede">
+      Monte Carlo integration is the workhorse of collider phenomenology — but the best
+      algorithm depends on the problem. <strong>PROTEUS</strong>
+      (<strong>P</strong>hase-space and <strong>R</strong>esonance-aware
+      <strong>O</strong>rchestrator for <strong>T</strong>ensor-accelerated
+      <strong>E</strong>stimation via <strong>U</strong>nified <strong>S</strong>amplers)
+      is a smart wrapper that examines your integrand, picks the right GPU backend,
+      and runs it in an isolated subprocess so TensorFlow and PyTorch never collide.
+    </p>
+    <p style="color:var(--c-fg-muted);">
+      You write a function. PROTEUS handles backend selection, subprocess isolation,
+      GPU memory management, multi-GPU assignment, result aggregation, and uncertainty
+      reporting. No reinvention — VegasFlow, i-flow, and MadNIS are called through
+      their official APIs, exactly as their authors intended.
+    </p>
+  </div>
+</section>
+
+<!-- Architecture ------------------------------------------------ -->
+<section id="architecture" class="section section-alt">
+  <div class="container">
+    <span class="section-eyebrow">Architecture</span>
+    <h2 class="section-title">Layered, modular, isolated.</h2>
+    <p class="section-lede">
+      A request flows through five layers — from your Python call to the GPU kernel.
+      Each layer is replaceable; each backend lives in its own subprocess.
+    </p>
+
+    <div class="arch-stack">
+      <div class="arch-row layer-1">
+        <div class="arch-tag">Frontend</div>
+        <div class="arch-body">
+          <strong>General · Physics · EFT</strong>
+          <span>Python APIs and a 7-tab Gradio web interface for general integration, HEP cross sections, hadronic processes, phase-space volumes, SMEFT operators, parameter gradients, and ONNX export.</span>
+        </div>
+      </div>
+      <div class="arch-row layer-2">
+        <div class="arch-tag">Dispatcher</div>
+        <div class="arch-body">
+          <strong>Smart backend selector</strong>
+          <span>Examines dimension, peakedness, and resonance structure. Routes the integrand to VegasFlow (D ≤ 12, smooth), i-flow (D &gt; 12), or MadNIS (peaked / resonant).</span>
+        </div>
+      </div>
+      <div class="arch-row layer-3">
+        <div class="arch-tag">Worker</div>
+        <div class="arch-body">
+          <strong>Subprocess isolation</strong>
+          <span>Each backend runs in a dedicated subprocess with its own framework — TensorFlow and PyTorch never share a process. Health-check pings, per-job timeouts, CUDA-wedge detection.</span>
+        </div>
+      </div>
+      <div class="arch-row layer-4">
+        <div class="arch-tag">Backends</div>
+        <div class="arch-body">
+          <strong>VegasFlow · i-flow · MadNIS · PDFFlow</strong>
+          <span>Three integration engines plus GPU-accelerated PDFs. Called through their official APIs — PROTEUS reimplements none of them.</span>
+        </div>
+      </div>
+      <div class="arch-row layer-5">
+        <div class="arch-tag">Hardware</div>
+        <div class="arch-body">
+          <strong>Multi-GPU orchestration</strong>
+          <span>Auto-detects available GPUs, offers per-backend assignment with memory fractions, and falls back gracefully to CPU when no accelerator is found.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features ---------------------------------------------------- -->
+<section id="features" class="section">
+  <div class="container">
+    <span class="section-eyebrow">Features</span>
+    <h2 class="section-title">Built for production-grade phenomenology.</h2>
+    <p class="section-lede">
+      Every feature was driven by a real LHC-era use case: differentiable cross sections
+      for likelihood fits, ONNX models for experiment software, phase-space generators
+      with analytic validation.
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Automatic backend selection</h3>
+        <p>Diagnostic samples decide between Vegas, normalising flows, and neural multi-channel based on dimension and peakedness.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">∂</div>
+        <h3>Differentiable cross sections</h3>
+        <p>Compute dσ/dθ via the Leibniz rule with central finite differences or tf.GradientTape — for any parameter, any process.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚛</div>
+        <h3>SMEFT operators</h3>
+        <p>Warsaw-basis dimension-6 Wilson coefficient scans. Recovers SM exactly at C_i = 0; full interference + quadratic terms.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔬</div>
+        <h3>Hadronic processes</h3>
+        <p>GPU-accelerated PDFs via PDFFlow. Drell-Yan and BSM resonance cross sections for LHC, Tevatron, and lepton colliders.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📐</div>
+        <h3>RAMBO phase space</h3>
+        <p>n-body Lorentz-invariant phase-space volumes Φₙ(s) with analytic comparison and pull validation for n = 2 – 6.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>ONNX export</h3>
+        <p>Export trained i-flow / MadNIS models to ONNX for C++ deployment in Delphes, full-sim, or experiment frameworks.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎲</div>
+        <h3>Automatic unweighting</h3>
+        <p>Rejection unweighting and PyTorch-based neural unweighting with reported efficiency and per-event weights.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔁</div>
+        <h3>UQ ensembles</h3>
+        <p>i-flow ensemble mean and variance for combined Monte-Carlo + machine-learning uncertainty quantification.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo / Code ------------------------------------------------- -->
+<section id="demo" class="section section-dark">
+  <div class="container">
+    <span class="section-eyebrow" style="color: var(--c-gold-hi);">Demo</span>
+    <h2 class="section-title">Five lines to the Z-pole cross section.</h2>
+    <p class="section-lede" style="color:#b6bbd0;">
+      PROTEUS picks the backend, runs it in an isolated worker, and returns a typed
+      result object with value, error, backend name, wall-clock time, and rich metadata.
+    </p>
+
+    <div class="demo-grid">
+      <div>
+<pre><code>from frontends.physics_frontend import PhysicsFrontend
+
+pf = PhysicsFrontend(verbose=True)
+r  = pf.compute_cross_section(
+        process='ee_to_mumu',
+        ecm=91.2,
+        n_calls=500_000,
+     )
+
+print(f"σ = {r.value:.1f} ± {r.error:.1f} pb")
+# σ = 2009.3 ± 0.7 pb   (Z-pole, validated)
+</code></pre>
+      </div>
+      <div>
+<pre><code>from frontends.general_frontend import GeneralFrontend
+import numpy as np
+
+gf = GeneralFrontend(verbose=True)
+r  = gf.integrate(
+        func    = lambda x: np.exp(-0.5*np.sum(x**2,axis=-1)),
+        n_dim   = 5,
+        bounds  = (-4, 4),
+        n_calls = 200_000,
+     )
+
+print(r.summary())
+# value=39.84 ±0.03  backend=vegasflow  t=3.1s
+</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products ---------------------------------------------------- -->
+<section class="section">
+  <div class="container">
+    <span class="section-eyebrow">Interfaces</span>
+    <h2 class="section-title">Three ways to use PROTEUS.</h2>
+    <p class="section-lede">
+      Whether you prefer a terminal session like MadGraph, a Gradio web UI for
+      exploration, or the raw Python API for batch jobs — same engine, same results.
+    </p>
+
+    <div class="products-grid">
+      <div class="product-card">
+        <span class="product-tag">CLI</span>
+        <h3>Terminal Application</h3>
+        <p>MadGraph-style interactive shell with tab completion, history, and a phase-aware progress spinner. Launch with <code>./bin/proteus</code>.</p>
+        <a class="more" href="docs/">Read the docs</a>
+      </div>
+      <div class="product-card">
+        <span class="product-tag">Web UI</span>
+        <h3>Gradio Interface</h3>
+        <p>Seven tabs covering general integration, HEP physics, hadronic processes, phase space, EFT, gradients, and ONNX export — with LaTeX-rendered math.</p>
+        <a class="more" href="docs/">See the tabs</a>
+      </div>
+      <div class="product-card">
+        <span class="product-tag">Python API</span>
+        <h3>Programmatic Access</h3>
+        <p>Three frontends — <code>GeneralFrontend</code>, <code>PhysicsFrontend</code>, <code>EFTFrontend</code> — for embedding PROTEUS in fits, scans, and pipelines.</p>
+        <a class="more" href="docs/">API reference</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Community --------------------------------------------------- -->
+<section id="community" class="section section-dark">
+  <div class="container">
+    <span class="section-eyebrow" style="color: var(--c-gold-hi);">Community</span>
+    <h2 class="section-title">Built in the open, grown by the community.</h2>
+    <p class="section-lede" style="color:#b6bbd0;">
+      Questions, ideas, bug reports, and pull requests are all welcome. Whether you're
+      a phenomenologist, an experimentalist, or just curious about Monte Carlo on GPUs.
+    </p>
+
+    <div class="community-cards">
+      <a class="community-card" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">
+        <div class="ic">⬢</div>
+        <h4>GitHub Repository</h4>
+        <p>Source code, issues, releases, and pull requests.</p>
+      </a>
+      <a class="community-card" href="community/">
+        <div class="ic">💬</div>
+        <h4>Discussion Forum</h4>
+        <p>Threaded Q&amp;A and announcements, powered by GitHub Discussions.</p>
+      </a>
+      <a class="community-card" href="updates/">
+        <div class="ic">📰</div>
+        <h4>Release Notes</h4>
+        <p>What changed, what's new, and what's coming next.</p>
+      </a>
+      <a class="community-card" href="mailto:sagarmodak@iisc.ac.in">
+        <div class="ic">✉</div>
+        <h4>Email the Authors</h4>
+        <p>Reach out directly with academic collaboration enquiries.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer ------------------------------------------------------ -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+        <svg width="28" height="28" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="30" x2="6"  y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="6"  y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <circle cx="30" cy="30" r="6" fill="#FFB800"/>
+          <circle cx="30" cy="30" r="2.5" fill="#fff"/>
+        </svg>
+        <strong style="color:#fff; font-size:1.05rem;">PROTEUS</strong>
+      </div>
+      <p style="color:#8a90a8; margin:0; font-size:.92rem; max-width:280px;">
+        GPU-accelerated Monte Carlo integration for collider phenomenology.
+      </p>
+    </div>
+
+    <div>
+      <h5>Project</h5>
+      <ul>
+        <li><a href="docs/">Documentation</a></li>
+        <li><a href="updates/">Updates</a></li>
+        <li><a href="community/">Community</a></li>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Authors</h5>
+      <ul>
+        <li><a href="mailto:sagarmodak@iisc.ac.in">Sagar Modak</a></li>
+        <li><a href="mailto:vempati@iisc.ac.in">Sudhir Vempati</a></li>
+        <li style="color:#6c728a; font-size:.85rem;">IISc Bangalore</li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS/issues" target="_blank" rel="noopener">Report a bug</a></li>
+        <li><a href="docs/#citation">Citation</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Sagar Modak &amp; Sudhir Vempati. Academic use requires citation of arXiv:TBD [hep-ph].</span>
+    <span>Built with care · v1.0.0</span>
+  </div>
+</footer>
+
+</body>
+</html>

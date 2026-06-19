@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Updates — PROTEUS</title>
+  <meta name="description" content="Release notes, project milestones, and announcements for PROTEUS.">
+  <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="site-nav">
+    <a href="../index.html" class="nav-brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="30" x2="6"  y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="6"  stroke="#FF5533" stroke-width="2"/>
+          <line x1="30" y1="30" x2="6"  y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <line x1="30" y1="30" x2="54" y2="54" stroke="#44AAFF" stroke-width="2"/>
+          <circle cx="30" cy="30" r="6" fill="#FFB800"/>
+          <circle cx="30" cy="30" r="2.5" fill="#fff"/>
+        </svg>
+      </span>
+      PROTEUS
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('is-open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="../index.html#mission">Mission</a></li>
+      <li><a href="../index.html#architecture">Architecture</a></li>
+      <li><a href="../index.html#features">Features</a></li>
+      <li><a href="../docs/">Docs</a></li>
+      <li><a class="is-active" href="./">Updates</a></li>
+      <li><a href="../community/">Community</a></li>
+      <li><a class="nav-cta" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="page-head">
+  <div class="container-narrow">
+    <h1>Updates</h1>
+    <p>Release notes, project milestones, and announcements.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container-narrow">
+    <article class="update-post">
+      <div class="meta">2026-06-19 · v1.0.0</div>
+      <h3>PROTEUS v1.0.0 — first public release</h3>
+      <p>
+        After a year of development at IISc Bangalore, PROTEUS reaches its first stable
+        release. All planned features are implemented: automatic backend dispatcher,
+        differentiable cross sections, SMEFT operators, hadronic PDFs via PDFFlow,
+        RAMBO phase space, automatic unweighting, UQ ensembles, multi-GPU orchestration,
+        and ONNX export. 246 tests pass on the reference hardware.
+      </p>
+      <p>
+        <a href="https://github.com/sagarmodak1997/PROTEUS/releases" target="_blank" rel="noopener">See full release notes →</a>
+      </p>
+    </article>
+
+    <article class="update-post">
+      <div class="meta">Coming soon</div>
+      <h3>PyPI release · MadGraph plugin · arXiv preprint</h3>
+      <p>
+        We're working on a PyPI package for one-command installation, a MadGraph plugin
+        for in-session use, and the accompanying preprint. Subscribe to the GitHub repo
+        for release notifications.
+      </p>
+    </article>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <strong style="color:#fff;">PROTEUS</strong>
+      <p style="color:#8a90a8; margin:8px 0 0; font-size:.92rem;">
+        GPU-accelerated Monte Carlo integration for collider phenomenology.
+      </p>
+    </div>
+    <div>
+      <h5>Project</h5>
+      <ul>
+        <li><a href="../docs/">Documentation</a></li>
+        <li><a href="./">Updates</a></li>
+        <li><a href="../community/">Community</a></li>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Authors</h5>
+      <ul>
+        <li><a href="mailto:sagarmodak@iisc.ac.in">Sagar Modak</a></li>
+        <li><a href="mailto:vempati@iisc.ac.in">Sudhir Vempati</a></li>
+        <li style="color:#6c728a; font-size:.85rem;">IISc Bangalore</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        <li><a href="https://github.com/sagarmodak1997/PROTEUS/issues" target="_blank" rel="noopener">Report a bug</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Sagar Modak &amp; Sudhir Vempati. Academic use requires citation of arXiv:TBD [hep-ph].</span>
+    <span>v1.0.0</span>
+  </div>
+</footer>
+
+</body>
+</html>
