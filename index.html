@@ -45,84 +45,126 @@
 </header>
 
 <section class="hero">
-  <div style="text-align:center; padding: 28px 24px 0;">
-    <svg width="100%" viewBox="0 0 860 200" xmlns="http://www.w3.org/2000/svg" style="max-width:860px; display:inline-block;" aria-label="PROTEUS">
-      <defs>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
+  <div class="hero-content">
 
-      <!-- Particle collider art -->
-      <ellipse cx="108" cy="100" rx="72" ry="32" fill="none" stroke="#FFD700" stroke-width="1.4" opacity="0.35" transform="rotate(-40 108 100)"/>
-      <ellipse cx="108" cy="100" rx="72" ry="32" fill="none" stroke="#FFD700" stroke-width="1.4" opacity="0.35" transform="rotate(40 108 100)"/>
-      <ellipse cx="108" cy="100" rx="72" ry="32" fill="none" stroke="#5599FF" stroke-width="1.4" opacity="0.30" transform="rotate(90 108 100)"/>
-      <line x1="108" y1="100" x2="36"  y2="48"  stroke="#FF5533" stroke-width="1.6" opacity="0.65"/>
-      <line x1="108" y1="100" x2="180" y2="48"  stroke="#FF5533" stroke-width="1.6" opacity="0.65"/>
-      <line x1="108" y1="100" x2="36"  y2="152" stroke="#44AAFF" stroke-width="1.6" opacity="0.65"/>
-      <line x1="108" y1="100" x2="180" y2="152" stroke="#44AAFF" stroke-width="1.6" opacity="0.65"/>
-      <line x1="108" y1="100" x2="108" y2="22"  stroke="#aaaaaa" stroke-width="1"   opacity="0.25"/>
-      <line x1="108" y1="100" x2="108" y2="178" stroke="#aaaaaa" stroke-width="1"   opacity="0.25"/>
-      <line x1="108" y1="100" x2="28"  y2="100" stroke="#aaaaaa" stroke-width="1"   opacity="0.25"/>
-      <line x1="108" y1="100" x2="188" y2="100" stroke="#aaaaaa" stroke-width="1"   opacity="0.25"/>
-      <circle cx="36"  cy="48"  r="3.5" fill="#FF5533" filter="url(#glow)"/>
-      <circle cx="180" cy="48"  r="3.5" fill="#FF5533" filter="url(#glow)"/>
-      <circle cx="36"  cy="152" r="3.5" fill="#44AAFF" filter="url(#glow)"/>
-      <circle cx="180" cy="152" r="3.5" fill="#44AAFF" filter="url(#glow)"/>
-      <circle cx="108" cy="100" r="7"   fill="#FFD700" filter="url(#glow)"/>
-      <circle cx="108" cy="100" r="3.5" fill="#ffffff"/>
+    <!-- PROTEUS animated logo: particle collider art + block-letter banner -->
+    <div class="hero-logo hero-animate" style="--d:0s;">
+      <svg viewBox="0 0 1000 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PROTEUS — collider logo">
+        <defs>
+          <radialGradient id="hVertex" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   style="stop-color:#FFF4B0; stop-opacity:0.9"/>
+            <stop offset="60%"  style="stop-color:#FFB800; stop-opacity:0.25"/>
+            <stop offset="100%" style="stop-color:#FFB800; stop-opacity:0"/>
+          </radialGradient>
+          <filter id="hGlow">
+            <feGaussianBlur stdDeviation="2.6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
 
-      <!-- PROTEUS banner3 figlet block-letter logo, 7-line gradient -->
-      <g font-family="'Courier New', Courier, monospace" font-size="14" letter-spacing="0">
-        <text x="228" y="52"  xml:space="preserve" fill="#FFE033">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;   &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588; &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  </text>
-        <text x="228" y="70"  xml:space="preserve" fill="#FFB800">&#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;       &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;    &#x2588;&#x2588; </text>
-        <text x="228" y="88"  xml:space="preserve" fill="#FF8C00">&#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;       &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;       </text>
-        <text x="228" y="106" xml:space="preserve" fill="#FF6600">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;   &#x2588;&#x2588;     &#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  </text>
-        <text x="228" y="124" xml:space="preserve" fill="#EE3300">&#x2588;&#x2588;        &#x2588;&#x2588;   &#x2588;&#x2588;   &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;       &#x2588;&#x2588;     &#x2588;&#x2588;       &#x2588;&#x2588; </text>
-        <text x="228" y="142" xml:space="preserve" fill="#DD1100">&#x2588;&#x2588;        &#x2588;&#x2588;    &#x2588;&#x2588;  &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;       &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;    &#x2588;&#x2588; </text>
-        <text x="228" y="160" xml:space="preserve" fill="#BB0000">&#x2588;&#x2588;        &#x2588;&#x2588;     &#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;   &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  </text>
-      </g>
+        <!-- Soft vertex halo -->
+        <circle cx="130" cy="115" r="98" fill="url(#hVertex)"/>
 
-      <!-- Acronym -->
-      <text x="231" y="182" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#888888" letter-spacing="0.3">Phase-space and Resonance-aware Orchestrator for Tensor-accelerated Estimation via Unified Samplers</text>
+        <!-- Orbit rings (rotating) -->
+        <g stroke-width="1.5" fill="none">
+          <ellipse cx="130" cy="115" rx="82" ry="36" stroke="#FFD700" opacity="0.40">
+            <animateTransform attributeName="transform" type="rotate" from="-40 130 115" to="320 130 115" dur="22s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="130" cy="115" rx="82" ry="36" stroke="#FFB800" opacity="0.35">
+            <animateTransform attributeName="transform" type="rotate" from="40 130 115" to="400 130 115" dur="18s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="130" cy="115" rx="82" ry="36" stroke="#5599FF" opacity="0.32">
+            <animateTransform attributeName="transform" type="rotate" from="90 130 115" to="450 130 115" dur="26s" repeatCount="indefinite"/>
+          </ellipse>
+        </g>
 
-      <!-- Tagline -->
-      <text x="231" y="196" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#FFB800" letter-spacing="0.5" opacity="0.80">GPU-accelerated Monte Carlo Integration  ·  Collider Phenomenology</text>
-    </svg>
-  </div>
+        <!-- Particle tracks -->
+        <g stroke-width="1.6" opacity="0.75">
+          <line x1="130" y1="115" x2="48"  y2="48"  stroke="#FF5533"/>
+          <line x1="130" y1="115" x2="212" y2="48"  stroke="#FF5533"/>
+          <line x1="130" y1="115" x2="48"  y2="182" stroke="#44AAFF"/>
+          <line x1="130" y1="115" x2="212" y2="182" stroke="#44AAFF"/>
+        </g>
+        <g stroke="#aaaaaa" stroke-width="1" opacity="0.20">
+          <line x1="130" y1="115" x2="130" y2="26"/>
+          <line x1="130" y1="115" x2="130" y2="204"/>
+          <line x1="130" y1="115" x2="32"  y2="115"/>
+          <line x1="130" y1="115" x2="228" y2="115"/>
+        </g>
 
-  <div class="hero-inner" style="padding-top: 40px;">
-    <div class="hero-text">
-      <span class="hero-greet">Phase-space and Resonance-aware Orchestrator for Tensor-accelerated Estimation via Unified Samplers</span>
-      <h1>GPU-accelerated <span class="accent">Monte Carlo</span> for collider phenomenology.</h1>
-      <p class="hero-sub">
-        PROTEUS routes your integration problem to the best available algorithm —
-        VegasFlow, i-flow, or MadNIS — automatically. Differentiable cross sections,
-        SMEFT operators, hadronic PDFs, and ONNX export, all in one framework.
-      </p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="docs/">Get Started →</a>
-        <a class="btn btn-ghost" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">View on GitHub</a>
-      </div>
+        <!-- Endpoint dots (pulsing) -->
+        <g filter="url(#hGlow)">
+          <circle cx="48"  cy="48"  r="3.8" fill="#FF5533">
+            <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="212" cy="48"  r="3.8" fill="#FF5533">
+            <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" begin="0.6s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="48"  cy="182" r="3.8" fill="#44AAFF">
+            <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" begin="1.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="212" cy="182" r="3.8" fill="#44AAFF">
+            <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" begin="1.8s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+
+        <!-- Collision vertex (pulsing) -->
+        <circle cx="130" cy="115" r="8" fill="#FFD700" filter="url(#hGlow)">
+          <animate attributeName="r" values="7;10;7" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="130" cy="115" r="3.6" fill="#ffffff"/>
+
+        <!-- PROTEUS block-letter banner (banner3 figlet, gradient) -->
+        <g font-family="'Courier New', Courier, monospace" font-size="18" letter-spacing="0">
+          <text x="278" y="38"  xml:space="preserve" fill="#FFE033">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;   &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588; &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  </text>
+          <text x="278" y="60"  xml:space="preserve" fill="#FFB800">&#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;       &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;    &#x2588;&#x2588; </text>
+          <text x="278" y="82"  xml:space="preserve" fill="#FF8C00">&#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;       &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;       </text>
+          <text x="278" y="104" xml:space="preserve" fill="#FF6600">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;   &#x2588;&#x2588;     &#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  </text>
+          <text x="278" y="126" xml:space="preserve" fill="#EE3300">&#x2588;&#x2588;        &#x2588;&#x2588;   &#x2588;&#x2588;   &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;       &#x2588;&#x2588;     &#x2588;&#x2588;       &#x2588;&#x2588; </text>
+          <text x="278" y="148" xml:space="preserve" fill="#DD1100">&#x2588;&#x2588;        &#x2588;&#x2588;    &#x2588;&#x2588;  &#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;    &#x2588;&#x2588;       &#x2588;&#x2588;     &#x2588;&#x2588; &#x2588;&#x2588;    &#x2588;&#x2588; </text>
+          <text x="278" y="170" xml:space="preserve" fill="#BB0000">&#x2588;&#x2588;        &#x2588;&#x2588;     &#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;     &#x2588;&#x2588;    &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;   &#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;  </text>
+        </g>
+
+        <!-- Acronym with letter highlights -->
+        <text x="280" y="202"
+              font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+              font-size="14" font-weight="500"
+              fill="#cfd3e2" letter-spacing="0.25">
+          <tspan font-weight="700" fill="#FFE033">P</tspan>hase-space and <tspan font-weight="700" fill="#FFB800">R</tspan>esonance-aware <tspan font-weight="700" fill="#FF8C00">O</tspan>rchestrator for <tspan font-weight="700" fill="#FF6600">T</tspan>ensor-accelerated <tspan font-weight="700" fill="#EE3300">E</tspan>stimation via <tspan font-weight="700" fill="#DD1100">U</tspan>nified <tspan font-weight="700" fill="#BB0000">S</tspan>amplers
+        </text>
+      </svg>
     </div>
 
-    <div class="hero-art">
-      <img src="assets/images/hero.svg" alt="Particle collision visualization">
+    <span class="hero-greet hero-animate" style="--d:0.45s;">Hello, I am <strong>PROTEUS</strong></span>
+
+    <h1 class="hero-animate" style="--d:0.6s;">
+      GPU-accelerated <span class="accent">Monte Carlo</span><br>
+      for collider phenomenology.
+    </h1>
+
+    <p class="hero-sub hero-animate" style="--d:0.75s;">
+      PROTEUS routes your integration problem to the best available algorithm —
+      VegasFlow, i-flow, or MadNIS — automatically. Differentiable cross sections,
+      SMEFT operators, hadronic PDFs, and ONNX export, all in one framework.
+    </p>
+
+    <div class="hero-actions hero-animate" style="--d:0.9s;">
+      <a class="btn btn-primary" href="docs/">Get Started →</a>
+      <a class="btn btn-ghost" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">View on GitHub</a>
     </div>
   </div>
 
-  <div class="hero-stats container">
-    <div><div class="stat-num">3</div><div class="stat-lbl">Integration Backends</div></div>
-    <div><div class="stat-num">7</div><div class="stat-lbl">Physics Modules</div></div>
-    <div><div class="stat-num">50D</div><div class="stat-lbl">Max Dimensions</div></div>
-    <div><div class="stat-num">246</div><div class="stat-lbl">Tests Passing</div></div>
+  <div class="hero-stats container hero-animate" style="--d:1.05s;">
+    <div><div class="stat-num" data-count="3">0</div><div class="stat-lbl">Integration Backends</div></div>
+    <div><div class="stat-num" data-count="7">0</div><div class="stat-lbl">Physics Modules</div></div>
+    <div><div class="stat-num" data-count="50" data-suffix="D">0D</div><div class="stat-lbl">Max Dimensions</div></div>
+    <div><div class="stat-num" data-count="246">0</div><div class="stat-lbl">Tests Passing</div></div>
   </div>
 </section>
 
 <!-- Mission ----------------------------------------------------- -->
 <section id="mission" class="section">
-  <div class="container-narrow">
+  <div class="container-narrow reveal">
     <span class="section-eyebrow">Our Mission</span>
     <h2 class="section-title">One framework, three engines, every integration.</h2>
     <p class="section-lede">
@@ -146,43 +188,45 @@
 <!-- Architecture ------------------------------------------------ -->
 <section id="architecture" class="section section-alt">
   <div class="container">
-    <span class="section-eyebrow">Architecture</span>
-    <h2 class="section-title">Layered, modular, isolated.</h2>
-    <p class="section-lede">
-      A request flows through five layers — from your Python call to the GPU kernel.
-      Each layer is replaceable; each backend lives in its own subprocess.
-    </p>
+    <div class="reveal">
+      <span class="section-eyebrow">Architecture</span>
+      <h2 class="section-title">Layered, modular, isolated.</h2>
+      <p class="section-lede">
+        A request flows through five layers — from your Python call to the GPU kernel.
+        Each layer is replaceable; each backend lives in its own subprocess.
+      </p>
+    </div>
 
     <div class="arch-stack">
-      <div class="arch-row layer-1">
+      <div class="arch-row layer-1 reveal" style="--d:0s;">
         <div class="arch-tag">Frontend</div>
         <div class="arch-body">
           <strong>General · Physics · EFT</strong>
           <span>Python APIs and a 7-tab Gradio web interface for general integration, HEP cross sections, hadronic processes, phase-space volumes, SMEFT operators, parameter gradients, and ONNX export.</span>
         </div>
       </div>
-      <div class="arch-row layer-2">
+      <div class="arch-row layer-2 reveal" style="--d:.08s;">
         <div class="arch-tag">Dispatcher</div>
         <div class="arch-body">
           <strong>Smart backend selector</strong>
           <span>Examines dimension, peakedness, and resonance structure. Routes the integrand to VegasFlow (D ≤ 12, smooth), i-flow (D &gt; 12), or MadNIS (peaked / resonant).</span>
         </div>
       </div>
-      <div class="arch-row layer-3">
+      <div class="arch-row layer-3 reveal" style="--d:.16s;">
         <div class="arch-tag">Worker</div>
         <div class="arch-body">
           <strong>Subprocess isolation</strong>
           <span>Each backend runs in a dedicated subprocess with its own framework — TensorFlow and PyTorch never share a process. Health-check pings, per-job timeouts, CUDA-wedge detection.</span>
         </div>
       </div>
-      <div class="arch-row layer-4">
+      <div class="arch-row layer-4 reveal" style="--d:.24s;">
         <div class="arch-tag">Backends</div>
         <div class="arch-body">
           <strong>VegasFlow · i-flow · MadNIS · PDFFlow</strong>
           <span>Three integration engines plus GPU-accelerated PDFs. Called through their official APIs — PROTEUS reimplements none of them.</span>
         </div>
       </div>
-      <div class="arch-row layer-5">
+      <div class="arch-row layer-5 reveal" style="--d:.32s;">
         <div class="arch-tag">Hardware</div>
         <div class="arch-body">
           <strong>Multi-GPU orchestration</strong>
@@ -196,51 +240,53 @@
 <!-- Features ---------------------------------------------------- -->
 <section id="features" class="section">
   <div class="container">
-    <span class="section-eyebrow">Features</span>
-    <h2 class="section-title">Built for production-grade phenomenology.</h2>
-    <p class="section-lede">
-      Every feature was driven by a real LHC-era use case: differentiable cross sections
-      for likelihood fits, ONNX models for experiment software, phase-space generators
-      with analytic validation.
-    </p>
+    <div class="reveal">
+      <span class="section-eyebrow">Features</span>
+      <h2 class="section-title">Built for production-grade phenomenology.</h2>
+      <p class="section-lede">
+        Every feature was driven by a real LHC-era use case: differentiable cross sections
+        for likelihood fits, ONNX models for experiment software, phase-space generators
+        with analytic validation.
+      </p>
+    </div>
 
     <div class="features-grid">
-      <div class="feature-card">
+      <div class="feature-card reveal" style="--d:0s;">
         <div class="feature-icon">⚡</div>
         <h3>Automatic backend selection</h3>
         <p>Diagnostic samples decide between Vegas, normalising flows, and neural multi-channel based on dimension and peakedness.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal" style="--d:.06s;">
         <div class="feature-icon">∂</div>
         <h3>Differentiable cross sections</h3>
         <p>Compute dσ/dθ via the Leibniz rule with central finite differences or tf.GradientTape — for any parameter, any process.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal" style="--d:.12s;">
         <div class="feature-icon">⚛</div>
         <h3>SMEFT operators</h3>
         <p>Warsaw-basis dimension-6 Wilson coefficient scans. Recovers SM exactly at C_i = 0; full interference + quadratic terms.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal" style="--d:.18s;">
         <div class="feature-icon">🔬</div>
         <h3>Hadronic processes</h3>
         <p>GPU-accelerated PDFs via PDFFlow. Drell-Yan and BSM resonance cross sections for LHC, Tevatron, and lepton colliders.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal" style="--d:.24s;">
         <div class="feature-icon">📐</div>
         <h3>RAMBO phase space</h3>
         <p>n-body Lorentz-invariant phase-space volumes Φₙ(s) with analytic comparison and pull validation for n = 2 – 6.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal" style="--d:.30s;">
         <div class="feature-icon">📦</div>
         <h3>ONNX export</h3>
         <p>Export trained i-flow / MadNIS models to ONNX for C++ deployment in Delphes, full-sim, or experiment frameworks.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal" style="--d:.36s;">
         <div class="feature-icon">🎲</div>
         <h3>Automatic unweighting</h3>
         <p>Rejection unweighting and PyTorch-based neural unweighting with reported efficiency and per-event weights.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal" style="--d:.42s;">
         <div class="feature-icon">🔁</div>
         <h3>UQ ensembles</h3>
         <p>i-flow ensemble mean and variance for combined Monte-Carlo + machine-learning uncertainty quantification.</p>
@@ -252,15 +298,17 @@
 <!-- Demo / Code ------------------------------------------------- -->
 <section id="demo" class="section section-dark">
   <div class="container">
-    <span class="section-eyebrow" style="color: var(--c-gold-hi);">Demo</span>
-    <h2 class="section-title">Five lines to the Z-pole cross section.</h2>
-    <p class="section-lede" style="color:#b6bbd0;">
-      PROTEUS picks the backend, runs it in an isolated worker, and returns a typed
-      result object with value, error, backend name, wall-clock time, and rich metadata.
-    </p>
+    <div class="reveal">
+      <span class="section-eyebrow" style="color: var(--c-gold-hi);">Demo</span>
+      <h2 class="section-title">Five lines to the Z-pole cross section.</h2>
+      <p class="section-lede" style="color:#b6bbd0;">
+        PROTEUS picks the backend, runs it in an isolated worker, and returns a typed
+        result object with value, error, backend name, wall-clock time, and rich metadata.
+      </p>
+    </div>
 
     <div class="demo-grid">
-      <div>
+      <div class="reveal" style="--d:0s;">
 <pre><code>from frontends.physics_frontend import PhysicsFrontend
 
 pf = PhysicsFrontend(verbose=True)
@@ -274,7 +322,7 @@ print(f"σ = {r.value:.1f} ± {r.error:.1f} pb")
 # σ = 2009.3 ± 0.7 pb   (Z-pole, validated)
 </code></pre>
       </div>
-      <div>
+      <div class="reveal" style="--d:.15s;">
 <pre><code>from frontends.general_frontend import GeneralFrontend
 import numpy as np
 
@@ -297,27 +345,29 @@ print(r.summary())
 <!-- Products ---------------------------------------------------- -->
 <section class="section">
   <div class="container">
-    <span class="section-eyebrow">Interfaces</span>
-    <h2 class="section-title">Three ways to use PROTEUS.</h2>
-    <p class="section-lede">
-      Whether you prefer a terminal session like MadGraph, a Gradio web UI for
-      exploration, or the raw Python API for batch jobs — same engine, same results.
-    </p>
+    <div class="reveal">
+      <span class="section-eyebrow">Interfaces</span>
+      <h2 class="section-title">Three ways to use PROTEUS.</h2>
+      <p class="section-lede">
+        Whether you prefer a terminal session like MadGraph, a Gradio web UI for
+        exploration, or the raw Python API for batch jobs — same engine, same results.
+      </p>
+    </div>
 
     <div class="products-grid">
-      <div class="product-card">
+      <div class="product-card reveal" style="--d:0s;">
         <span class="product-tag">CLI</span>
         <h3>Terminal Application</h3>
         <p>MadGraph-style interactive shell with tab completion, history, and a phase-aware progress spinner. Launch with <code>./bin/proteus</code>.</p>
         <a class="more" href="docs/">Read the docs</a>
       </div>
-      <div class="product-card">
+      <div class="product-card reveal" style="--d:.1s;">
         <span class="product-tag">Web UI</span>
         <h3>Gradio Interface</h3>
         <p>Seven tabs covering general integration, HEP physics, hadronic processes, phase space, EFT, gradients, and ONNX export — with LaTeX-rendered math.</p>
         <a class="more" href="docs/">See the tabs</a>
       </div>
-      <div class="product-card">
+      <div class="product-card reveal" style="--d:.2s;">
         <span class="product-tag">Python API</span>
         <h3>Programmatic Access</h3>
         <p>Three frontends — <code>GeneralFrontend</code>, <code>PhysicsFrontend</code>, <code>EFTFrontend</code> — for embedding PROTEUS in fits, scans, and pipelines.</p>
@@ -330,30 +380,32 @@ print(r.summary())
 <!-- Community --------------------------------------------------- -->
 <section id="community" class="section section-dark">
   <div class="container">
-    <span class="section-eyebrow" style="color: var(--c-gold-hi);">Community</span>
-    <h2 class="section-title">Built in the open, grown by the community.</h2>
-    <p class="section-lede" style="color:#b6bbd0;">
-      Questions, ideas, bug reports, and pull requests are all welcome. Whether you're
-      a phenomenologist, an experimentalist, or just curious about Monte Carlo on GPUs.
-    </p>
+    <div class="reveal">
+      <span class="section-eyebrow" style="color: var(--c-gold-hi);">Community</span>
+      <h2 class="section-title">Built in the open, grown by the community.</h2>
+      <p class="section-lede" style="color:#b6bbd0;">
+        Questions, ideas, bug reports, and pull requests are all welcome. Whether you're
+        a phenomenologist, an experimentalist, or just curious about Monte Carlo on GPUs.
+      </p>
+    </div>
 
     <div class="community-cards">
-      <a class="community-card" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">
+      <a class="community-card reveal" style="--d:0s;" href="https://github.com/sagarmodak1997/PROTEUS" target="_blank" rel="noopener">
         <div class="ic">⬢</div>
         <h4>GitHub Repository</h4>
         <p>Source code, issues, releases, and pull requests.</p>
       </a>
-      <a class="community-card" href="community/">
+      <a class="community-card reveal" style="--d:.08s;" href="community/">
         <div class="ic">💬</div>
         <h4>Discussion Forum</h4>
         <p>Threaded Q&amp;A and announcements, powered by GitHub Discussions.</p>
       </a>
-      <a class="community-card" href="updates/">
+      <a class="community-card reveal" style="--d:.16s;" href="updates/">
         <div class="ic">📰</div>
         <h4>Release Notes</h4>
         <p>What changed, what's new, and what's coming next.</p>
       </a>
-      <a class="community-card" href="mailto:sagarmodak@iisc.ac.in">
+      <a class="community-card reveal" style="--d:.24s;" href="mailto:sagarmodak@iisc.ac.in">
         <div class="ic">✉</div>
         <h4>Email the Authors</h4>
         <p>Reach out directly with academic collaboration enquiries.</p>
@@ -366,7 +418,7 @@ print(r.summary())
 <footer class="site-footer">
   <div class="footer-grid">
     <div>
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
         <svg width="28" height="28" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
           <line x1="30" y1="30" x2="6"  y2="6"  stroke="#FF5533" stroke-width="2"/>
           <line x1="30" y1="30" x2="54" y2="6"  stroke="#FF5533" stroke-width="2"/>
@@ -375,7 +427,7 @@ print(r.summary())
           <circle cx="30" cy="30" r="6" fill="#FFB800"/>
           <circle cx="30" cy="30" r="2.5" fill="#fff"/>
         </svg>
-        <strong style="color:#fff; font-size:1.05rem;">PROTEUS</strong>
+        <span class="footer-brand-text">PROTEUS</span>
       </div>
       <p style="color:#8a90a8; margin:0; font-size:.92rem; max-width:280px;">
         GPU-accelerated Monte Carlo integration for collider phenomenology.
@@ -417,6 +469,76 @@ print(r.summary())
     <span>Built with care · v1.0.0</span>
   </div>
 </footer>
+
+<script>
+  // Scroll-reveal: add .is-visible when elements enter the viewport
+  (function () {
+    var reveals = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || !reveals.length) {
+      reveals.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  })();
+
+  // Number counter: animate stats from 0 to data-count when visible
+  (function () {
+    var counters = document.querySelectorAll('[data-count]');
+    if (!counters.length) return;
+    function animate(el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      var dur = 1400, start = performance.now();
+      function tick(now) {
+        var t = Math.min(1, (now - start) / dur);
+        var eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    if (!('IntersectionObserver' in window)) {
+      counters.forEach(function (c) {
+        c.textContent = c.getAttribute('data-count') + (c.getAttribute('data-suffix') || '');
+      });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animate(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(function (c) { io.observe(c); });
+  })();
+
+  // Subtle parallax: drift the hero star layer slightly with scroll
+  (function () {
+    var hero = document.querySelector('.hero');
+    if (!hero) return;
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var y = Math.min(window.scrollY, 600);
+        hero.style.setProperty('--hero-shift', y + 'px');
+        hero.style.backgroundPosition = 'center ' + (y * 0.15) + 'px';
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
+</script>
 
 </body>
 </html>
