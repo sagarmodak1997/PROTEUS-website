@@ -309,10 +309,9 @@
 
     <div class="demo-grid">
       <div class="reveal" style="--d:0s;">
-<pre><code>from frontends.physics_frontend import PhysicsFrontend
+<pre><code>import proteus
 
-pf = PhysicsFrontend(verbose=True)
-r  = pf.compute_cross_section(
+r = proteus.compute_cross_section(
         process='ee_to_mumu',
         ecm=91.2,
         n_calls=500_000,
@@ -323,19 +322,17 @@ print(f"σ = {r.value:.1f} ± {r.error:.1f} pb")
 </code></pre>
       </div>
       <div class="reveal" style="--d:.15s;">
-<pre><code>from frontends.general_frontend import GeneralFrontend
-import numpy as np
+<pre><code>import proteus, numpy as np
 
-gf = GeneralFrontend(verbose=True)
-r  = gf.integrate(
+r = proteus.integrate(
         func    = lambda x: np.exp(-0.5*np.sum(x**2,axis=-1)),
         n_dim   = 5,
         bounds  = (-4, 4),
         n_calls = 200_000,
      )
 
-print(r.summary())
-# value=39.84 ±0.03  backend=vegasflow  t=3.1s
+print(r.value, r.error, r.backend)
+# ≈ 98.9  ...  vegasflow
 </code></pre>
       </div>
     </div>
@@ -358,7 +355,7 @@ print(r.summary())
       <div class="product-card reveal" style="--d:0s;">
         <span class="product-tag">CLI</span>
         <h3>Terminal Application</h3>
-        <p>MadGraph-style interactive shell with tab completion, history, and a phase-aware progress spinner. Launch with <code>./bin/proteus</code>.</p>
+        <p>MadGraph-style interactive shell with tab completion, history, and a phase-aware progress spinner. Launch with <code>proteus</code> or <code>proteus -t</code>.</p>
         <a class="more" href="docs/">Read the docs</a>
       </div>
       <div class="product-card reveal" style="--d:.1s;">
@@ -370,7 +367,7 @@ print(r.summary())
       <div class="product-card reveal" style="--d:.2s;">
         <span class="product-tag">Python API</span>
         <h3>Programmatic Access</h3>
-        <p>Three frontends — <code>GeneralFrontend</code>, <code>PhysicsFrontend</code>, <code>EFTFrontend</code> — for embedding PROTEUS in fits, scans, and pipelines.</p>
+        <p>A single <code>import proteus</code> namespace — <code>integrate</code>, <code>compute_cross_section</code>, and more — for embedding PROTEUS in fits, scans, and pipelines.</p>
         <a class="more" href="docs/">API reference</a>
       </div>
     </div>

@@ -51,6 +51,19 @@
 <section class="section">
   <div class="container-narrow">
     <article class="update-post">
+      <div class="meta">2026 · packaging</div>
+      <h3>Single <code>proteus</code> namespace and console script</h3>
+      <p>
+        PROTEUS now installs as one importable package: <code>import proteus</code> exposes the
+        public API (<code>proteus.integrate</code>, <code>proteus.compute_cross_section</code>, and more),
+        and a <code>proteus</code> console script launches the menu (<code>proteus</code>), terminal UI
+        (<code>proteus -t</code>), and web UI (<code>proteus -w</code>). Verify an install with
+        <code>proteus --check</code>. The previous flat module layout and the old
+        script-based entry point are gone.
+      </p>
+    </article>
+
+    <article class="update-post">
       <div class="meta">2026-06-19 · v1.0.0</div>
       <h3>PROTEUS v1.0.0 — first public release</h3>
       <p>

@@ -75,8 +75,12 @@
         <h3>5. Backend Dispatcher</h3>
         <p>How PROTEUS decides between VegasFlow, i-flow, and MadNIS for your integrand.</p>
       </a>
+      <a class="toc-card" href="#troubleshooting">
+        <h3>6. Troubleshooting / FAQ</h3>
+        <p>Common install and runtime issues — command not found, missing backends, GPU detection, ONNX, and more.</p>
+      </a>
       <a class="toc-card" href="#citation">
-        <h3>6. Citation</h3>
+        <h3>7. Citation</h3>
         <p>BibTeX entry, CERN / ATLAS / CMS policy notes, and required acknowledgements.</p>
       </a>
     </div>
@@ -86,6 +90,11 @@
 <section class="section section-alt">
   <div class="container-narrow">
     <h2 id="install">1. Installation</h2>
+    <p>PROTEUS is a Python package that wraps GPU-accelerated Monte Carlo integration
+    libraries. The recommended setup is a dedicated <strong>conda</strong> environment
+    on a Linux machine with an NVIDIA GPU. (A CPU-only install also works — see the
+    GPU note in <a href="#troubleshooting">Troubleshooting</a>.)</p>
+
     <h3>1.1 Clone and create the environment</h3>
 <pre><code>git clone https://github.com/sagarmodak1997/PROTEUS.git
 cd PROTEUS
@@ -94,7 +103,9 @@ conda activate proteus
 pip install -r requirements.txt</code></pre>
 
     <h3>1.2 GPU backends</h3>
-    <p>Identify your CUDA version with <code>nvidia-smi</code>, then install matching wheels:</p>
+    <p>Identify your CUDA driver/runtime version with <code>nvidia-smi</code>, then install
+    matching TensorFlow and PyTorch wheels. TensorFlow drives VegasFlow and i-flow;
+    PyTorch drives MadNIS.</p>
 <pre><code># CUDA 12.x
 pip install tensorflow[and-cuda]
 pip install torch --index-url https://download.pytorch.org/whl/cu121
@@ -104,51 +115,118 @@ pip install tensorflow==2.12
 pip install torch --index-url https://download.pytorch.org/whl/cu118</code></pre>
 
     <h3>1.3 Integration libraries</h3>
+    <p>Install the three sampling backends. PROTEUS calls their public APIs directly and
+    never reimplements them, so each must be importable in the environment.</p>
 <pre><code>pip install vegasflow
 pip install git+https://gitlab.com/i-flow/i-flow.git
-pip install git+https://github.com/madnis/madnis.git
-pip install -e .</code></pre>
+pip install git+https://github.com/madnis/madnis.git</code></pre>
 
-    <h3>1.4 Verify</h3>
-<pre><code>python3 bin/proteus.py --check
+    <p>For hadronic (proton–proton / Drell-Yan) mode, also install the GPU PDF evaluator
+    and an LHAPDF set manager:</p>
+<pre><code>pip install pdfflow lhapdf-management</code></pre>
 
-  [OK] Python       3.10.14
+    <h3>1.4 Install PROTEUS</h3>
+    <p>Install PROTEUS itself in editable mode from the repository root. This registers the
+    <code>proteus</code> console command and makes <code>import proteus</code> available.</p>
+<pre><code>pip install -e .</code></pre>
+
+    <h3 id="verify">1.5 Verify your install</h3>
+    <p>Run the built-in environment check. It validates every backend and reports GPUs.</p>
+<pre><code>proteus --check</code></pre>
+    <p style="background:rgba(255,184,0,.1); border-left:3px solid var(--c-gold); padding:14px 18px; border-radius:6px; color:var(--c-fg);">
+      <strong>Expected output</strong> (yours will differ in versions / GPU count):
+    </p>
+<pre><code>  [OK] Python       3.10.14
   [OK] TensorFlow   2.21.0
   [OK] PyTorch      2.6.0
   [OK] VegasFlow    1.4.0
   [OK] i-flow       found
   [OK] MadNIS       found
+  [OK] pdfflow      found
   [OK] GPU          2x NVIDIA A100 80GB PCIe
   All checks passed.</code></pre>
+    <p>If any line reads <code>[MISSING]</code>, install that package (see the exact commands in
+    <a href="#troubleshooting">Troubleshooting</a>). A missing GPU is not fatal — PROTEUS falls
+    back to CPU.</p>
 
     <h2 id="quickstart" style="margin-top:64px;">2. Quick Start</h2>
+    <p>The fastest path is the interactive launcher. With the environment active:</p>
 <pre><code>conda activate proteus
-cd PROTEUS
-python3 bin/proteus.py</code></pre>
-    <p>Choose <code>1</code> for the terminal interface or <code>2</code> for the browser interface.</p>
+proteus</code></pre>
+    <p>This prints the banner and an interactive menu. You can also jump straight to a mode
+    with command-line flags:</p>
+<pre><code>proteus              # interactive menu
+proteus -t           # terminal interface
+proteus -w           # web interface (Gradio, port 8888)
+proteus -w -p 9000   # web interface on a custom port
+proteus --version    # print version and exit
+proteus --check      # validate the environment
+proteus --no-banner  # suppress the startup banner
 
-    <h2 id="python-api" style="margin-top:64px;">3. Python API</h2>
-    <h3>3.1 General integration</h3>
-<pre><code>from frontends.general_frontend import GeneralFrontend
-import numpy as np
+# Equivalent module form (if the console script is not on PATH):
+python -m proteus --check</code></pre>
 
-gf = GeneralFrontend(verbose=True)
-result = gf.integrate(
+    <p>Or run a one-line integration directly in Python:</p>
+<pre><code>import numpy as np
+import proteus
+
+r = proteus.integrate(
     func    = lambda x: np.exp(-0.5 * np.sum(x**2, axis=-1)),
     n_dim   = 5,
     bounds  = (-4, 4),
     n_calls = 200_000,
 )
-print(result.value, "±", result.error)   # 39.84 ± 0.03</code></pre>
+print(r.summary())
+print(r.value, "±", r.error)   # ≈ 98.9  on [-4,4]^5 (backend: vegasflow)</code></pre>
 
-    <h3>3.2 HEP cross sections</h3>
-<pre><code>from frontends.physics_frontend import PhysicsFrontend
+    <h2 id="python-api" style="margin-top:64px;">3. Python API</h2>
+    <p>Everything lives under the <code>proteus</code> namespace. For most tasks the top-level
+    helpers are all you need; the advanced classes give finer control.</p>
+
+    <h3>3.1 Top-level helpers</h3>
+    <p>The package exposes a small, stable public API:</p>
+<pre><code>import proteus
+
+# General-purpose integration — backend auto-selected by the dispatcher
+r = proteus.integrate(func=my_func, n_dim=5, bounds=(-4, 4), n_calls=200_000)
+
+# A HEP cross section in one call (e+e- → μ+μ- at the Z pole)
+s = proteus.compute_cross_section(process='ee_to_mumu', ecm=91.2, n_calls=500_000)
+
+proteus.load_config()   # load the default configuration dict
+proteus.cite()          # print the BibTeX entry</code></pre>
+
+    <p>Both <code>integrate</code> and <code>compute_cross_section</code> return an
+    <code>IntegrationResult</code>. Useful attributes:</p>
+<pre><code>r.value                     # central estimate
+r.error                     # Monte Carlo (statistical) error
+r.backend                   # which backend ran ('vegasflow', 'iflow', 'madnis')
+r.relative_error_percent    # error as a percentage of the value
+print(r.summary())          # formatted multi-line report</code></pre>
+
+    <h3>3.2 General integration</h3>
+    <p>Integrate any vectorised NumPy function. The input <code>x</code> has shape
+    <code>(batch, n_dim)</code>; the function must return a 1-D array of length <code>batch</code>.</p>
+<pre><code>import numpy as np
+import proteus
+
+result = proteus.integrate(
+    func    = lambda x: np.exp(-0.5 * np.sum(x**2, axis=-1)),
+    n_dim   = 5,
+    bounds  = (-4, 4),
+    n_calls = 200_000,
+)
+print(result.value, "±", result.error)   # ≈ 98.9 ± 0.1  (backend: vegasflow)</code></pre>
+
+    <h3>3.3 HEP cross sections</h3>
+    <p>For full control over physics processes, use <code>PhysicsFrontend</code>:</p>
+<pre><code>from proteus.frontends.physics_frontend import PhysicsFrontend
 
 pf = PhysicsFrontend(verbose=True)
 
 # e+e- → μ+μ- at the Z pole
 r = pf.compute_cross_section(process='ee_to_mumu', ecm=91.2, n_calls=500_000)
-print(f"σ = {r.value:.1f} ± {r.error:.1f} pb")   # ≈ 2009 ± 1 pb
+print(f"σ = {r.value:.1f} ± {r.error:.1f} pb")   # ≈ 2010 ± 1 pb
 
 # Drell-Yan + Z' at 200 GeV
 r = pf.compute_cross_section(
@@ -156,8 +234,26 @@ r = pf.compute_cross_section(
     quark_pdg_id=2, zprime_mass=150.0, zprime_width=1.5,
 )</code></pre>
 
-    <h3>3.3 SMEFT operators</h3>
-<pre><code>from frontends.eft_frontend import EFTFrontend
+    <h3>3.4 Hadronic (pp) cross sections</h3>
+    <p>Convolve a partonic process with PDFs via PDFFlow. Requires the <code>pdfflow</code>
+    and <code>lhapdf-management</code> install from step 1.3.</p>
+<pre><code>from proteus.frontends.physics_frontend import PhysicsFrontend
+
+pf = PhysicsFrontend(verbose=True)
+r = pf.compute_cross_section_pp(
+    process='drell_yan', ecm=14000.0, n_calls=500_000,
+)
+print(r.value, "pb")</code></pre>
+    <p style="background:rgba(255,184,0,.1); border-left:3px solid var(--c-gold); padding:14px 18px; border-radius:6px; color:var(--c-fg);">
+      <strong>Experimental:</strong> the absolute normalization of the hadronic (pp / Drell-Yan)
+      result is not yet benchmarked. It is validated only as finite and positive — treat the
+      magnitude with caution.
+    </p>
+
+    <h3>3.5 SMEFT operators</h3>
+    <p>Scan dimension-6 Warsaw-basis Wilson coefficients with <code>EFTFrontend</code>. At
+    every coefficient set to zero, the result reduces to the Standard Model.</p>
+<pre><code>from proteus.frontends.eft_frontend import EFTFrontend
 
 eft = EFTFrontend(verbose=False)
 r = eft.compute_cross_section(
@@ -165,45 +261,112 @@ r = eft.compute_cross_section(
     wc_dict={'ll_1221': 0.01}, Lambda=1000.0, n_calls=500_000,
 )</code></pre>
 
-    <h3>3.4 Differentiable cross sections</h3>
+    <h3>3.6 Differentiable cross sections</h3>
+    <p>PROTEUS computes dσ/dθ — the gradient of a cross section with respect to a physics
+    parameter — via the Leibniz rule (the derivative is itself a Monte Carlo integral).</p>
 <pre><code>grads = pf.compute_cross_section_gradient(
     process='ee_to_mumu', ecm=200.0,
     wrt={'mz': (91.1876, 0.1)},
     n_calls=500_000,
 )
-print(grads['mz'].value, "± pb/GeV")</code></pre>
+print(grads['mz'].value, "pb/GeV")</code></pre>
+
+    <h3>3.7 Custom matrix elements</h3>
+    <p>Load a squared matrix element from a string expression, a file, or a Python callable:</p>
+<pre><code>from proteus.physics_utils.matrix_loader import load_matrix_element
+
+m2 = load_matrix_element("x^2 + y^2")   # also accepts a file path or a callable</code></pre>
 
     <h2 id="web-ui" style="margin-top:64px;">4. Web Interface</h2>
-    <p>Launch the Gradio interface and open the URL it prints:</p>
-<pre><code>python3 bin/proteus.py -w
-# → http://localhost:8888</code></pre>
+    <p>Launch the Gradio interface and open the URL it prints (default port 8888):</p>
+<pre><code>proteus -w
+# → http://localhost:8888
+
+proteus -w -p 9000   # choose a different port</code></pre>
 
     <p>Seven tabs cover the most common phenomenology workflows:</p>
     <ul>
       <li><strong>⚙ General Integration</strong> — any function, 1 – 50 dimensions</li>
       <li><strong>⚛ HEP Physics (e⁺e⁻)</strong> — Drell-Yan, ee→μμ, Z′</li>
-      <li><strong>🔬 Hadronic (pp)</strong> — LHC / Tevatron with PDFFlow</li>
+      <li><strong>🔬 Hadronic (pp)</strong> — LHC / Tevatron with PDFFlow (experimental normalization)</li>
       <li><strong>📐 Phase Space Volume</strong> — RAMBO with analytic comparison</li>
       <li><strong>🧪 EFT / SMEFT</strong> — Warsaw-basis Wilson coefficient scans</li>
-      <li><strong>∂ Gradient dσ/dθ</strong> — central finite differences</li>
-      <li><strong>📦 ONNX Export</strong> — i-flow / MadNIS to ONNX</li>
+      <li><strong>∂ Gradient dσ/dθ</strong> — differentiable cross sections</li>
+      <li><strong>📦 ONNX Export</strong> — i-flow / MadNIS to ONNX (best-effort)</li>
     </ul>
 
     <h2 id="dispatcher" style="margin-top:64px;">5. Backend Dispatcher</h2>
+    <p>PROTEUS routes each integrand to the most suitable backend automatically. VegasFlow
+    (TensorFlow) handles smooth integrands up to 12 dimensions; i-flow (TensorFlow) takes
+    higher-dimensional smooth integrands; MadNIS (PyTorch) handles peaked or resonant ones.
+    A Vegas-grid concentration diagnostic detects sharply peaked functions and routes them
+    to MadNIS even at low dimension.</p>
     <table style="width:100%; border-collapse:collapse; margin:18px 0;">
       <thead style="background:#fff; border-bottom:2px solid var(--c-border);">
         <tr><th style="text-align:left; padding:10px;">Condition</th><th style="text-align:left; padding:10px;">Backend</th></tr>
       </thead>
       <tbody>
-        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D ≤ 4</td><td style="padding:10px;">VegasFlow</td></tr>
-        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D = 5 – 12, smooth</td><td style="padding:10px;">VegasFlow</td></tr>
-        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D = 5 – 12, peaked</td><td style="padding:10px;">MadNIS</td></tr>
-        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D &gt; 12</td><td style="padding:10px;">i-flow</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D ≤ 12, smooth</td><td style="padding:10px;">VegasFlow (TensorFlow)</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D &gt; 12, smooth</td><td style="padding:10px;">i-flow (TensorFlow)</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">Peaked / resonant (any D)</td><td style="padding:10px;">MadNIS (PyTorch)</td></tr>
         <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;"><code>peaked=True</code></td><td style="padding:10px;">MadNIS (forced)</td></tr>
       </tbody>
     </table>
+    <p>You normally never choose a backend by hand — but if you want to, see the backend FAQ
+    entry in <a href="#troubleshooting">Troubleshooting</a>.</p>
 
-    <h2 id="citation" style="margin-top:64px;">6. Citation</h2>
+    <h2 id="troubleshooting" style="margin-top:64px;">6. Troubleshooting / FAQ</h2>
+
+    <h3><code>proteus: command not found</code></h3>
+    <p>The console script is registered when you run <code>pip install -e .</code> inside the
+    active environment. If the command is not found:</p>
+    <ul>
+      <li>Make sure the environment is active: <code>conda activate proteus</code>.</li>
+      <li>Reinstall from the repository root: <code>pip install -e .</code>.</li>
+      <li>As a fallback you can always use the module form: <code>python -m proteus --check</code>.</li>
+    </ul>
+
+    <h3><code>--check</code> reports a missing backend</h3>
+    <p>Install whichever package is flagged <code>[MISSING]</code>:</p>
+<pre><code>pip install vegasflow                                  # VegasFlow
+pip install git+https://gitlab.com/i-flow/i-flow.git   # i-flow
+pip install git+https://github.com/madnis/madnis.git   # MadNIS
+pip install pdfflow lhapdf-management                  # hadronic (pp) mode</code></pre>
+    <p>Then re-run <code>proteus --check</code> to confirm all lines read <code>[OK]</code>.</p>
+
+    <h3>GPU not detected</h3>
+    <p>If <code>proteus --check</code> shows no GPU, PROTEUS runs on CPU automatically — every
+    feature still works, just slower. Common causes of a missing GPU:</p>
+    <ul>
+      <li>TensorFlow/PyTorch wheels do not match your CUDA version — reinstall the matching
+      wheels from <a href="#install">section 1.2</a> (check <code>nvidia-smi</code>).</li>
+      <li>No NVIDIA driver / CUDA runtime is installed on the host.</li>
+    </ul>
+
+    <h3>Can I import TensorFlow and PyTorch in the same script?</h3>
+    <p>Yes. PROTEUS runs each backend in an isolated worker subprocess, so TensorFlow and
+    PyTorch never share a Python process at runtime. Importing both <code>proteus</code> and any
+    other framework in your own code is completely fine — there are no in-process conflicts.</p>
+
+    <h3>My hadronic (pp) cross section looks off</h3>
+    <p>The absolute normalization of the hadronic / Drell-Yan mode is <strong>experimental</strong>.
+    It is validated only as finite and positive, not benchmarked against a reference. Use it for
+    shape and relative studies; do not treat the absolute magnitude as physics-grade yet.</p>
+
+    <h3>ONNX export returns <code>onnx_valid=False</code></h3>
+    <p>ONNX export is <strong>best-effort</strong>. Some flow architectures use operations that
+    <code>tf2onnx</code> cannot convert, and in a subprocess GPU context onnxruntime may fail to
+    create a session. When that happens the export still writes the model files but reports
+    <code>onnx_valid=False</code>. The native checkpoint (TensorFlow / PyTorch) remains the
+    reliable artifact.</p>
+
+    <h3>How do I choose the right backend?</h3>
+    <p>You usually don't — the <a href="#dispatcher">dispatcher</a> picks for you based on
+    dimensionality and a peakedness diagnostic. As a rule of thumb: smooth and low-dimensional
+    → VegasFlow; smooth and high-dimensional (D&gt;12) → i-flow; sharply peaked or resonant →
+    MadNIS. If your integrand has a known resonance, pass <code>peaked=True</code> to force MadNIS.</p>
+
+    <h2 id="citation" style="margin-top:64px;">7. Citation</h2>
     <p>If you use PROTEUS in academic work, cite the paper:</p>
 <pre><code>@software{proteus2026,
   author       = {Sagar Modak and Sudhir Vempati},
