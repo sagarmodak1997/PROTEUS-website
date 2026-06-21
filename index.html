@@ -33,6 +33,7 @@
 
     <ul class="nav-links">
       <li><a href="#mission">Mission</a></li>
+      <li><a href="#capabilities">Capabilities</a></li>
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#demo">Demo</a></li>
@@ -158,7 +159,7 @@
     <div><div class="stat-num" data-count="3">0</div><div class="stat-lbl">Integration Backends</div></div>
     <div><div class="stat-num" data-count="7">0</div><div class="stat-lbl">Physics Modules</div></div>
     <div><div class="stat-num" data-count="50" data-suffix="D">0D</div><div class="stat-lbl">Max Dimensions</div></div>
-    <div><div class="stat-num" data-count="246">0</div><div class="stat-lbl">Tests Passing</div></div>
+    <div><div class="stat-num" data-count="392">0</div><div class="stat-lbl">Tests Passing</div></div>
   </div>
 </section>
 
@@ -182,6 +183,70 @@
       reporting. No reinvention — VegasFlow, i-flow, and MadNIS are called through
       their official APIs, exactly as their authors intended.
     </p>
+  </div>
+</section>
+
+<!-- Capabilities — orbital carousel ----------------------------- -->
+<section id="capabilities" class="section orbit-section">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <span class="section-eyebrow">Capabilities</span>
+      <h2 class="section-title" style="margin-left:auto; margin-right:auto;">Everything PROTEUS can do, in orbit.</h2>
+      <p class="section-lede" style="margin:0 auto 40px; text-align:center;">
+        Eight capabilities orbit a single engine. Hover to pause and explore — each
+        links straight into the docs.
+      </p>
+    </div>
+
+    <div class="orbit-wrap reveal">
+      <div class="orbit">
+        <div class="orbit-ring-guide r1"></div>
+        <div class="orbit-ring-guide r2"></div>
+
+        <!-- central hub -->
+        <div class="orbit-center">
+          <span class="oc-pulse"></span>
+          <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="30" y1="30" x2="6"  y2="6"  stroke="#FF5533" stroke-width="2"/>
+            <line x1="30" y1="30" x2="54" y2="6"  stroke="#FF5533" stroke-width="2"/>
+            <line x1="30" y1="30" x2="6"  y2="54" stroke="#44AAFF" stroke-width="2"/>
+            <line x1="30" y1="30" x2="54" y2="54" stroke="#44AAFF" stroke-width="2"/>
+            <circle cx="30" cy="30" r="6" fill="#FFB800"/>
+            <circle cx="30" cy="30" r="2.5" fill="#fff"/>
+          </svg>
+          <span class="oc-name">PROTEUS</span>
+        </div>
+
+        <!-- orbiting capability cards -->
+        <div class="orbit-stage">
+          <a class="orbit-card" style="--i:0" href="docs/#dispatcher" aria-label="Automatic backend selection">
+            <span class="oc-ic">⚡</span><span class="oc-lbl">Auto&nbsp;Backend Selection</span>
+          </a>
+          <a class="orbit-card" style="--i:1" href="docs/#python-api" aria-label="Differentiable cross sections">
+            <span class="oc-ic">∂</span><span class="oc-lbl">Differentiable σ</span>
+          </a>
+          <a class="orbit-card" style="--i:2" href="docs/#python-api" aria-label="SMEFT operators">
+            <span class="oc-ic">⚛</span><span class="oc-lbl">SMEFT Operators</span>
+          </a>
+          <a class="orbit-card" style="--i:3" href="docs/#python-api" aria-label="Hadronic PDFs">
+            <span class="oc-ic">🔬</span><span class="oc-lbl">Hadronic PDFs</span>
+          </a>
+          <a class="orbit-card" style="--i:4" href="docs/#python-api" aria-label="RAMBO phase space">
+            <span class="oc-ic">📐</span><span class="oc-lbl">RAMBO Phase&nbsp;Space</span>
+          </a>
+          <a class="orbit-card" style="--i:5" href="docs/#web-ui" aria-label="ONNX export">
+            <span class="oc-ic">📦</span><span class="oc-lbl">ONNX Export</span>
+          </a>
+          <a class="orbit-card" style="--i:6" href="docs/#python-api" aria-label="Neural unweighting">
+            <span class="oc-ic">🎲</span><span class="oc-lbl">Neural Unweighting</span>
+          </a>
+          <a class="orbit-card" style="--i:7" href="docs/#install" aria-label="Multi-GPU orchestration">
+            <span class="oc-ic">🖥</span><span class="oc-lbl">Multi-GPU</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <p class="orbit-hint reveal">Hover the orbit to pause · click a capability to open the docs</p>
   </div>
 </section>
 
@@ -318,7 +383,7 @@ r = proteus.compute_cross_section(
      )
 
 print(f"σ = {r.value:.1f} ± {r.error:.1f} pb")
-# σ = 2009.3 ± 0.7 pb   (Z-pole, validated)
+# σ ≈ 2010 ± 1 pb   (Z-pole, validated vs MadGraph)
 </code></pre>
       </div>
       <div class="reveal" style="--d:.15s;">
