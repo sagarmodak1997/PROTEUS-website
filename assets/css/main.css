@@ -774,8 +774,9 @@ pre code { background: none; color: inherit; padding: 0; }
   /* Single fluid size drives the whole orbit, so it scales down on phones
      and keeps rotating (instead of collapsing to a grid). */
   --size:   min(600px, calc(100vw - 56px));
-  --radius: calc(var(--size) * 0.387);
-  --card:   calc(var(--size) * 0.20);
+  --radius: calc(var(--size) * 0.37);
+  /* card never shrinks below 72px, so 3-word labels still fit the circle */
+  --card:   clamp(72px, calc(var(--size) * 0.205), 120px);
   --n: 8;
   --dur: 48s;
   position: relative;
@@ -853,7 +854,7 @@ pre code { background: none; color: inherit; padding: 0; }
   border-radius: 50%;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 7px;
+  gap: clamp(2px, calc(var(--size) * 0.008), 7px);
   text-align: center;
   background: rgba(255, 255, 255, .05);
   border: 1px solid rgba(255, 255, 255, .14);
@@ -882,15 +883,18 @@ pre code { background: none; color: inherit; padding: 0; }
   z-index: 4;
 }
 .orbit-card .oc-ic {
-  font-size: clamp(1.1rem, calc(var(--size) * 0.00275), 1.65rem);
+  font-size: clamp(1rem, calc(var(--size) * 0.00275), 1.65rem);
   line-height: 1;
 }
 .orbit-card .oc-lbl {
-  font-size: clamp(.56rem, calc(var(--size) * 0.0012), .72rem);
+  font-size: clamp(.54rem, calc(var(--size) * 0.0012), .72rem);
   font-weight: 600;
-  color: #e9ecf7; letter-spacing: .01em;
-  line-height: 1.15;
-  padding: 0 6px;
+  color: #e9ecf7; letter-spacing: 0;
+  line-height: 1.1;
+  max-width: 88%;
+  padding: 0;
+  overflow-wrap: anywhere;   /* let long words (e.g. "Unweighting") wrap inside the circle */
+  hyphens: auto;
 }
 .orbit-hint {
   text-align: center;
