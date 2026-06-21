@@ -887,11 +887,11 @@ pre code { background: none; color: inherit; padding: 0; }
   line-height: 1;
 }
 .orbit-card .oc-lbl {
-  font-size: clamp(.54rem, calc(var(--size) * 0.0012), .72rem);
+  font-size: clamp(.52rem, calc(var(--size) * 0.00118), .72rem);
   font-weight: 600;
   color: #e9ecf7; letter-spacing: 0;
-  line-height: 1.1;
-  max-width: 88%;
+  line-height: 1.08;
+  max-width: 82%;
   padding: 0;
   overflow-wrap: anywhere;   /* let long words (e.g. "Unweighting") wrap inside the circle */
   hyphens: auto;
