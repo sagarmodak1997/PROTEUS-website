@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/main.css?v=3">
+  <link rel="stylesheet" href="../assets/css/main.css?v=4">
 </head>
 <body>
 
@@ -50,6 +50,21 @@
 
 <section class="section">
   <div class="container-narrow">
+    <article class="update-post">
+      <div class="meta">2026-06-23 · bug fix</div>
+      <h3>i-flow now trains reliably above 12 dimensions</h3>
+      <p>
+        Fixed a bug that caused the i-flow backend (used for smooth integrands above
+        12 dimensions) to abandon training early on every run and fall back to a
+        degraded estimate, regardless of the integrand. i-flow now trains successfully
+        across the full tested range, with accuracy within a factor of a few of the
+        exact value through roughly 30 dimensions. Also corrected a citation
+        misattribution for the PDFFlow backend and two bugs in the
+        <code>camel_back.py</code> example (a stale import and an off-by-factor-of-2
+        error in its closed-form reference value).
+      </p>
+    </article>
+
     <article class="update-post">
       <div class="meta">2026 · packaging</div>
       <h3>Single <code>proteus</code> namespace and console script</h3>

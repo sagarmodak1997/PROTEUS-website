@@ -772,11 +772,14 @@ pre code { background: none; color: inherit; padding: 0; }
 }
 .orbit {
   /* Single fluid size drives the whole orbit, so it scales down on phones
-     and keeps rotating (instead of collapsing to a grid). */
-  --size:   min(600px, calc(100vw - 56px));
+     and keeps rotating (instead of collapsing to a grid). Cap raised from
+     600px to 720px so laptop/desktop viewports (which have plenty of room
+     inside the 1180px container) render noticeably bigger card text
+     instead of sitting at the old, small fixed cap. */
+  --size:   min(720px, calc(100vw - 56px));
   --radius: calc(var(--size) * 0.37);
   /* card never shrinks below 72px, so 3-word labels still fit the circle */
-  --card:   clamp(72px, calc(var(--size) * 0.205), 120px);
+  --card:   clamp(72px, calc(var(--size) * 0.205), 136px);
   --n: 8;
   --dur: 48s;
   position: relative;
@@ -823,13 +826,13 @@ pre code { background: none; color: inherit; padding: 0; }
   z-index: 3;
 }
 .orbit-center svg {
-  width: clamp(34px, calc(var(--size) * 0.093), 56px);
-  height: clamp(34px, calc(var(--size) * 0.093), 56px);
+  width: clamp(34px, calc(var(--size) * 0.093), 64px);
+  height: clamp(34px, calc(var(--size) * 0.093), 64px);
 }
 .orbit-center .oc-name {
   font-family: 'Courier New', ui-monospace, monospace;
   font-weight: 900;
-  font-size: clamp(.6rem, calc(var(--size) * 0.0015), .92rem);
+  font-size: clamp(.6rem, calc(var(--size) * 0.0017), 1.05rem);
   letter-spacing: .12em;
   margin-top: 6px;
   background: linear-gradient(180deg, #FFE033, #FF6600);
@@ -887,14 +890,14 @@ pre code { background: none; color: inherit; padding: 0; }
   z-index: 4;
 }
 .orbit-card .oc-ic {
-  font-size: clamp(1rem, calc(var(--size) * 0.00275), 1.65rem);
+  font-size: clamp(1.1rem, calc(var(--size) * 0.0034), 2rem);
   line-height: 1;
 }
 .orbit-card .oc-lbl {
-  font-size: clamp(.52rem, calc(var(--size) * 0.00118), .72rem);
+  font-size: clamp(.64rem, calc(var(--size) * 0.00152), .92rem);
   font-weight: 600;
   color: #e9ecf7; letter-spacing: 0;
-  line-height: 1.08;
+  line-height: 1.12;
   max-width: 82%;
   padding: 0;
   overflow-wrap: anywhere;   /* let long words (e.g. "Unweighting") wrap inside the circle */
