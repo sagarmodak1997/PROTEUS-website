@@ -57,7 +57,7 @@
     <div class="toc-grid">
       <a class="toc-card" href="#install">
         <h3>1. Installation</h3>
-        <p>Conda environment, GPU prerequisites, and dependency setup for CUDA 11.x and 12.x.</p>
+        <p>Conda environment, supported GPU families, backend dependencies, and CPU fallback.</p>
       </a>
       <a class="toc-card" href="#quickstart">
         <h3>2. Quick Start</h3>
@@ -91,9 +91,10 @@
   <div class="container-narrow">
     <h2 id="install">1. Installation</h2>
     <p>PROTEUS is a Python package that wraps GPU-accelerated Monte Carlo integration
-    libraries. The recommended setup is a dedicated <strong>conda</strong> environment
-    on a Linux machine with an NVIDIA GPU. (A CPU-only install also works — see the
-    GPU note in <a href="#troubleshooting">Troubleshooting</a>.)</p>
+    libraries. It auto-detects supported accelerator stacks at launch: NVIDIA CUDA,
+    AMD ROCm/HIP, Apple Silicon Metal/MPS, or CPU-only fallback. The reference
+    validation uses NVIDIA A100 GPUs, but CPU-only installs and other supported
+    accelerator families are handled by the same hardware-detection layer.</p>
 
     <h3>1.1 Clone and create the environment</h3>
 <pre><code>git clone https://github.com/sagarmodak1997/PROTEUS.git
@@ -103,16 +104,34 @@ conda activate proteus
 pip install -r requirements.txt</code></pre>
 
     <h3>1.2 GPU backends</h3>
-    <p>Identify your CUDA driver/runtime version with <code>nvidia-smi</code>, then install
-    matching TensorFlow and PyTorch wheels. TensorFlow drives VegasFlow and i-flow;
-    PyTorch drives MadNIS.</p>
-<pre><code># CUDA 12.x
+    <p>At startup, PROTEUS detects the local hardware and chooses the framework device
+    exposed by TensorFlow and PyTorch. Supported accelerator families are:</p>
+    <ul>
+      <li><strong>NVIDIA</strong> — CUDA via TensorFlow and PyTorch.</li>
+      <li><strong>AMD</strong> — ROCm/HIP via <code>tensorflow-rocm</code> and ROCm PyTorch, where available.</li>
+      <li><strong>Apple Silicon</strong> — Metal for TensorFlow via <code>tensorflow-metal</code> and MPS for PyTorch.</li>
+      <li><strong>CPU only</strong> — automatic fallback when no supported GPU stack is available.</li>
+    </ul>
+    <p>For the reference NVIDIA/CUDA setup, identify your CUDA driver/runtime version with
+    <code>nvidia-smi</code>, then install matching TensorFlow and PyTorch wheels. TensorFlow
+    drives VegasFlow and i-flow; PyTorch drives MadNIS.</p>
+<pre><code># NVIDIA CUDA 12.x
 pip install tensorflow[and-cuda]
 pip install torch --index-url https://download.pytorch.org/whl/cu121
 
-# CUDA 11.x
+# NVIDIA CUDA 11.x
 pip install tensorflow==2.12
-pip install torch --index-url https://download.pytorch.org/whl/cu118</code></pre>
+pip install torch --index-url https://download.pytorch.org/whl/cu118
+
+# AMD ROCm/HIP, if supported by your platform
+pip install tensorflow-rocm
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.0
+
+# Apple Silicon Metal/MPS
+pip install tensorflow-metal
+# PyTorch uses MPS when installed on supported Apple Silicon systems</code></pre>
+    <p>Generic non-NVIDIA, non-ROCm, non-Apple GPU devices are not claimed unless the
+    installed TensorFlow/PyTorch stack exposes them as supported devices.</p>
 
     <h3>1.3 Integration libraries</h3>
     <p>Install the three sampling backends. PROTEUS calls their public APIs directly and
@@ -131,7 +150,7 @@ pip install git+https://github.com/madnis/madnis.git</code></pre>
 <pre><code>pip install -e .</code></pre>
 
     <h3 id="verify">1.5 Verify your install</h3>
-    <p>Run the built-in environment check. It validates every backend and reports GPUs.</p>
+    <p>Run the built-in environment check. It validates every backend and reports the detected hardware path.</p>
 <pre><code>proteus --check</code></pre>
     <p style="background:rgba(255,184,0,.1); border-left:3px solid var(--c-gold); padding:14px 18px; border-radius:6px; color:var(--c-fg);">
       <strong>Expected output</strong> (yours will differ in versions / GPU count):
@@ -146,8 +165,8 @@ pip install git+https://github.com/madnis/madnis.git</code></pre>
   [OK] GPU          2x NVIDIA A100 80GB PCIe
   All checks passed.</code></pre>
     <p>If any line reads <code>[MISSING]</code>, install that package (see the exact commands in
-    <a href="#troubleshooting">Troubleshooting</a>). A missing GPU is not fatal — PROTEUS falls
-    back to CPU.</p>
+    <a href="#troubleshooting">Troubleshooting</a>). A missing GPU is not fatal: PROTEUS uses
+    CPU execution where the selected backend dependencies support it.</p>
 
     <h2 id="quickstart" style="margin-top:64px;">2. Quick Start</h2>
     <p>The fastest path is the interactive launcher. With the environment active:</p>
@@ -372,10 +391,18 @@ pip install pdfflow lhapdf-management                  # hadronic (pp) mode</cod
     <h3>GPU not detected</h3>
     <p>If <code>proteus --check</code> shows no GPU, PROTEUS can use CPU execution where the selected backend dependencies support it. CPU fallback is useful for testing and small jobs, but the reference performance validation is GPU-focused. Common causes of a missing GPU:</p>
     <ul>
-      <li>TensorFlow/PyTorch wheels do not match your CUDA version — reinstall the matching
-      wheels from <a href="#install">section 1.2</a> (check <code>nvidia-smi</code>).</li>
-      <li>No NVIDIA driver / CUDA runtime is installed on the host.</li>
+      <li>NVIDIA: TensorFlow/PyTorch wheels do not match your CUDA version — check <code>nvidia-smi</code> and reinstall matching wheels.</li>
+      <li>AMD: ROCm is missing or the Python environment lacks <code>tensorflow-rocm</code> / ROCm PyTorch.</li>
+      <li>Apple Silicon: <code>tensorflow-metal</code> is missing for TensorFlow-backed VegasFlow/i-flow; PyTorch should expose MPS for MadNIS.</li>
+      <li>No supported accelerator runtime is installed on the host.</li>
     </ul>
+
+    <h3>What happens at launch?</h3>
+    <p>The launcher runs the hardware detector before starting the terminal or web UI. It reports
+    whether the system is using NVIDIA CUDA, AMD ROCm/HIP, Apple Metal/MPS, or CPU. On AMD and
+    Apple systems it can point out missing optional GPU packages; on multi-GPU systems it offers
+    per-backend GPU assignment. If no supported GPU stack is available, workers use CPU-compatible
+    backend paths where available.</p>
 
     <h3>Can I import TensorFlow and PyTorch in the same script?</h3>
     <p>Yes. PROTEUS runs each backend in an isolated worker subprocess, so TensorFlow and

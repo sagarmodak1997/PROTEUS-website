@@ -174,12 +174,12 @@
       (<strong>P</strong>hase-space and <strong>R</strong>esonance-aware
       <strong>O</strong>rchestrator for <strong>T</strong>ensor-accelerated
       <strong>E</strong>stimation via <strong>U</strong>nified <strong>S</strong>amplers)
-      is a smart wrapper that examines your integrand, picks the right GPU backend,
-      and runs it in an isolated subprocess so TensorFlow and PyTorch never collide.
+      is a smart wrapper that examines your integrand, detects the available hardware,
+      picks the right backend, and runs it in an isolated subprocess so TensorFlow and PyTorch never collide.
     </p>
     <p style="color:var(--c-fg-muted);">
-      You write a function. PROTEUS handles backend selection, subprocess isolation,
-      GPU memory management, multi-GPU assignment, result aggregation, and uncertainty
+      You write a function. PROTEUS handles backend selection, hardware detection,
+      GPU memory management, multi-GPU assignment, CPU fallback, result aggregation, and uncertainty
       reporting. No reinvention — VegasFlow, i-flow, and MadNIS are called through
       their official APIs, exactly as their authors intended.
     </p>
@@ -295,7 +295,7 @@
         <div class="arch-tag">Hardware</div>
         <div class="arch-body">
           <strong>Multi-GPU orchestration</strong>
-          <span>Auto-detects available GPUs, offers per-backend assignment with memory fractions, and can fall back to CPU where the selected backend dependencies support CPU execution.</span>
+          <span>Auto-detects NVIDIA CUDA, AMD ROCm/HIP, Apple Silicon Metal/MPS, or CPU-only systems. On multi-GPU hosts it offers per-backend assignment with memory fractions; without a supported GPU it falls back to CPU where backend dependencies allow.</span>
         </div>
       </div>
     </div>
