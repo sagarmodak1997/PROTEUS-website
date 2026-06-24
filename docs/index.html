@@ -206,7 +206,9 @@ print(r.summary())          # formatted multi-line report</code></pre>
 
     <h3>3.2 General integration</h3>
     <p>Integrate any vectorised NumPy function. The input <code>x</code> has shape
-    <code>(batch, n_dim)</code>; the function must return a 1-D array of length <code>batch</code>.</p>
+    <code>(batch, n_dim)</code>; the function must return a 1-D array of length <code>batch</code>.
+    This default compatibility path may cross a Python/NumPy callback bridge; it is general and convenient,
+    but it is not the path used for GPU-speedup benchmark claims.</p>
 <pre><code>import numpy as np
 import proteus
 
@@ -218,7 +220,25 @@ result = proteus.integrate(
 )
 print(result.value, "±", result.error)   # ≈ 98.9 ± 0.1  (backend: vegasflow)</code></pre>
 
-    <h3>3.3 HEP cross sections</h3>
+    <h3>3.3 TensorFlow-native expression mode</h3>
+    <p>For performance benchmarks with expression strings on the VegasFlow path, PROTEUS provides
+    an opt-in TensorFlow-native mode. This avoids the Python/NumPy callback bridge and lets
+    VegasFlow evaluate the expression as TensorFlow tensor code.</p>
+<pre><code>result = proteus.integrate(
+    func           = "exp(-0.5 * sum(x**2, axis=1))",
+    n_dim          = 4,
+    bounds         = (-6.0, 6.0),
+    n_calls        = 10_000_000,
+    peaked         = False,
+    backend        = "vegasflow",
+    integrand_mode = "tensorflow",
+)</code></pre>
+    <p>Use <code>integrand_mode="numpy"</code> for the default compatibility path.
+    TensorFlow-native mode currently applies to expression strings routed through VegasFlow;
+    arbitrary Python callables, file-based matrix elements, i-flow, and MadNIS retain their
+    existing compatibility behavior.</p>
+
+    <h3>3.4 HEP cross sections</h3>
     <p>For full control over physics processes, use <code>PhysicsFrontend</code>:</p>
 <pre><code>from proteus.frontends.physics_frontend import PhysicsFrontend
 
@@ -234,7 +254,7 @@ r = pf.compute_cross_section(
     quark_pdg_id=2, zprime_mass=150.0, zprime_width=1.5,
 )</code></pre>
 
-    <h3>3.4 Hadronic (pp) cross sections</h3>
+    <h3>3.5 Hadronic (pp) cross sections</h3>
     <p>Convolve a partonic process with PDFs via PDFFlow. Requires the <code>pdfflow</code>
     and <code>lhapdf-management</code> install from step 1.3. PROTEUS sums over up- and
     down-type quark flavours automatically.</p>
@@ -258,7 +278,7 @@ print(r.value, "pb")               # ~2000 pb (single lepton flavour, NNPDF3.1 N
       vs MadGraph 1453±2 pb).
     </p>
 
-    <h3>3.5 SMEFT operators</h3>
+    <h3>3.6 SMEFT operators</h3>
     <p>Scan dimension-6 Warsaw-basis Wilson coefficients with <code>EFTFrontend</code>. At
     every coefficient set to zero, the result reduces to the Standard Model.</p>
 <pre><code>from proteus.frontends.eft_frontend import EFTFrontend
@@ -269,7 +289,7 @@ r = eft.compute_cross_section(
     wc_dict={'ll_1221': 0.01}, Lambda=1000.0, n_calls=500_000,
 )</code></pre>
 
-    <h3>3.6 Differentiable cross sections</h3>
+    <h3>3.7 Differentiable cross sections</h3>
     <p>PROTEUS computes dσ/dθ — the gradient of a cross section with respect to a physics
     parameter — via the Leibniz rule (the derivative is itself a Monte Carlo integral).</p>
 <pre><code>grads = pf.compute_cross_section_gradient(
@@ -279,7 +299,7 @@ r = eft.compute_cross_section(
 )
 print(grads['mz'].value, "pb/GeV")</code></pre>
 
-    <h3>3.7 Custom matrix elements</h3>
+    <h3>3.8 Custom matrix elements</h3>
     <p>Load a squared matrix element from a string expression, a file, or a Python callable:</p>
 <pre><code>from proteus.physics_utils.matrix_loader import load_matrix_element
 
@@ -304,22 +324,29 @@ proteus -w -p 9000   # choose a different port</code></pre>
     </ul>
 
     <h2 id="dispatcher" style="margin-top:64px;">5. Backend Dispatcher</h2>
-    <p>PROTEUS routes each integrand to the most suitable backend automatically. VegasFlow
-    (TensorFlow) handles smooth integrands up to 12 dimensions; i-flow (TensorFlow) takes
-    higher-dimensional smooth integrands; MadNIS (PyTorch) handles peaked or resonant ones.
-    A Vegas-grid concentration diagnostic detects sharply peaked functions and routes them
-    to MadNIS even at low dimension.</p>
+    <p>PROTEUS routes each integrand to a backend using dimension, peakedness, and any explicit
+    backend override. The current default policy is: D ≤ 4 goes to VegasFlow; smooth D = 5-12
+    goes to VegasFlow; peaked or resonant D = 5-12 goes to MadNIS; and D &gt; 12 goes to i-flow.
+    A Vegas-grid concentration diagnostic is used only where it is reliable.</p>
     <table style="width:100%; border-collapse:collapse; margin:18px 0;">
       <thead style="background:#fff; border-bottom:2px solid var(--c-border);">
         <tr><th style="text-align:left; padding:10px;">Condition</th><th style="text-align:left; padding:10px;">Backend</th></tr>
       </thead>
       <tbody>
-        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D ≤ 12, smooth</td><td style="padding:10px;">VegasFlow (TensorFlow)</td></tr>
-        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D &gt; 12, smooth</td><td style="padding:10px;">i-flow (TensorFlow)</td></tr>
-        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">Peaked / resonant (any D)</td><td style="padding:10px;">MadNIS (PyTorch)</td></tr>
-        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;"><code>peaked=True</code></td><td style="padding:10px;">MadNIS (forced)</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D ≤ 4</td><td style="padding:10px;">VegasFlow (TensorFlow)</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D = 5-12, smooth</td><td style="padding:10px;">VegasFlow (TensorFlow)</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D = 5-12, peaked / resonant</td><td style="padding:10px;">MadNIS (PyTorch)</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;">D &gt; 12</td><td style="padding:10px;">i-flow (TensorFlow)</td></tr>
+        <tr style="border-bottom:1px solid var(--c-border);"><td style="padding:10px;"><code>backend=...</code></td><td style="padding:10px;">Explicit user override</td></tr>
       </tbody>
     </table>
+
+    <h3>5.1 Validated GPU performance scope</h3>
+    <p>GPU execution has been validated across representative backend routes. Speedup has been
+    benchmarked for supported native paths, especially TensorFlow-native VegasFlow expression
+    workloads at large call counts. Arbitrary Python/NumPy callback integrands are supported for
+    compatibility, but they should not be described as fully GPU-native or guaranteed faster than CPU.</p>
+
     <p>You normally never choose a backend by hand — but if you want to, see the backend FAQ
     entry in <a href="#troubleshooting">Troubleshooting</a>.</p>
 
@@ -343,8 +370,7 @@ pip install pdfflow lhapdf-management                  # hadronic (pp) mode</cod
     <p>Then re-run <code>proteus --check</code> to confirm all lines read <code>[OK]</code>.</p>
 
     <h3>GPU not detected</h3>
-    <p>If <code>proteus --check</code> shows no GPU, PROTEUS runs on CPU automatically — every
-    feature still works, just slower. Common causes of a missing GPU:</p>
+    <p>If <code>proteus --check</code> shows no GPU, PROTEUS can use CPU execution where the selected backend dependencies support it. CPU fallback is useful for testing and small jobs, but the reference performance validation is GPU-focused. Common causes of a missing GPU:</p>
     <ul>
       <li>TensorFlow/PyTorch wheels do not match your CUDA version — reinstall the matching
       wheels from <a href="#install">section 1.2</a> (check <code>nvidia-smi</code>).</li>
@@ -374,9 +400,7 @@ pip install pdfflow lhapdf-management                  # hadronic (pp) mode</cod
 
     <h3>How do I choose the right backend?</h3>
     <p>You usually don't — the <a href="#dispatcher">dispatcher</a> picks for you based on
-    dimensionality and a peakedness diagnostic. As a rule of thumb: smooth and low-dimensional
-    → VegasFlow; smooth and high-dimensional (D&gt;12) → i-flow; sharply peaked or resonant →
-    MadNIS. If your integrand has a known resonance, pass <code>peaked=True</code> to force MadNIS.</p>
+    dimensionality and a peakedness diagnostic. As a rule of thumb: D ≤ 4 → VegasFlow; smooth D = 5-12 → VegasFlow; peaked or resonant D = 5-12 → MadNIS; D&gt;12 → i-flow. If you need a specific backend, pass <code>backend="vegasflow"</code>, <code>backend="iflow"</code>, or <code>backend="madnis"</code>.</p>
 
     <h2 id="citation" style="margin-top:64px;">7. Citation</h2>
     <p>If you use PROTEUS in academic work, cite the paper:</p>

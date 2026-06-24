@@ -159,7 +159,7 @@
     <div><div class="stat-num" data-count="3">0</div><div class="stat-lbl">Integration Backends</div></div>
     <div><div class="stat-num" data-count="7">0</div><div class="stat-lbl">Physics Modules</div></div>
     <div><div class="stat-num" data-count="50" data-suffix="D">0D</div><div class="stat-lbl">Max Dimensions</div></div>
-    <div><div class="stat-num" data-count="392">0</div><div class="stat-lbl">Tests Passing</div></div>
+    <div><div class="stat-num" data-count="397">0</div><div class="stat-lbl">Pytest Tests Passing</div><div class="stat-note">+ 8 install checks + 30 release checks</div></div>
   </div>
 </section>
 
@@ -257,8 +257,8 @@
       <span class="section-eyebrow">Architecture</span>
       <h2 class="section-title">Layered, modular, isolated.</h2>
       <p class="section-lede">
-        A request flows through five layers — from your Python call to the GPU kernel.
-        Each layer is replaceable; each backend lives in its own subprocess.
+        A request flows through five layers — from your Python call to an isolated backend worker.
+        Each layer is replaceable; each backend lives in its own subprocess. Supported native paths execute in GPU-enabled backends, while compatibility callback paths preserve Python/NumPy behavior.
       </p>
     </div>
 
@@ -274,7 +274,7 @@
         <div class="arch-tag">Dispatcher</div>
         <div class="arch-body">
           <strong>Smart backend selector</strong>
-          <span>Examines dimension, peakedness, and resonance structure. Routes the integrand to VegasFlow (D ≤ 12, smooth), i-flow (D &gt; 12), or MadNIS (peaked / resonant).</span>
+          <span>Examines dimension, peakedness, and resonance structure. Routes low-dimensional jobs to VegasFlow, smooth high-dimensional jobs to i-flow, and mid-dimensional peaked or resonant jobs to MadNIS unless a backend is forced.</span>
         </div>
       </div>
       <div class="arch-row layer-3 reveal" style="--d:.16s;">
@@ -295,7 +295,7 @@
         <div class="arch-tag">Hardware</div>
         <div class="arch-body">
           <strong>Multi-GPU orchestration</strong>
-          <span>Auto-detects available GPUs, offers per-backend assignment with memory fractions, and falls back gracefully to CPU when no accelerator is found.</span>
+          <span>Auto-detects available GPUs, offers per-backend assignment with memory fractions, and can fall back to CPU where the selected backend dependencies support CPU execution.</span>
         </div>
       </div>
     </div>
